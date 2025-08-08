@@ -81,12 +81,6 @@ function closeMessageModal() {
     // Felder zurücksetzen
     document.getElementById('authorName').value = '';
     document.getElementById('messageText').value = '';
-
-    // Scroll hint und mobile arrow wieder einblenden
-    const scrollHint = document.querySelector('.scroll-hint');
-    const mobileArrow = document.querySelector('.mobile-arrow');
-    if (scrollHint) scrollHint.style.display = 'block';
-    if (mobileArrow && window.innerWidth <= 480) mobileArrow.style.display = 'flex';
 }
 
 // Nachricht senden mit verbesserter Validierung

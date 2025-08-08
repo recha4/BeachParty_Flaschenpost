@@ -12,10 +12,16 @@ body {
     user-select: none;
 }
 
+html {
+    height: 100%;
+    overflow: hidden;
+}
+
 .beach-container {
     position: relative;
     width: 150vw;
     height: 100vh;
+    overflow-y: hidden;
     background-image: url('img/strand.png');
     background-size: cover;
     background-position: bottom;
@@ -519,7 +525,8 @@ body {
 .mobile-arrow {
     position: absolute;
     bottom: 20px;
-    right: 20px;
+    left: 50%;
+    transform: translateX(-50%);
     width: 60px;
     height: 60px;
     background: linear-gradient(145deg, #FF6347, #FF4500);
