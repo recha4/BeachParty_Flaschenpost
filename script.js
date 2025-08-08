@@ -277,16 +277,6 @@ function openGallery() {
 function closeGallery() {
     const modal = document.getElementById('galleryModal');
     modal.style.display = 'none';
-
-    // Scroll hint und mobile arrow wieder einblenden wenn nicht bei der Flasche
-    const container = document.querySelector('.beach-container');
-    if (container.scrollLeft < window.innerWidth * 0.6) { // Angepasst für neue Breite
-        const scrollHint = document.querySelector('.scroll-hint');
-        const mobileArrow = document.querySelector('.mobile-arrow');
-
-        if (scrollHint) scrollHint.style.display = 'block';
-        if (mobileArrow) mobileArrow.style.display = 'flex';
-    }
 }
 
 // Gallery aktualisieren mit verbesserter UI
@@ -403,7 +393,12 @@ document.addEventListener('DOMContentLoaded', function () {
             const scrollHint = document.querySelector('.scroll-hint');
             const mobileArrow = document.querySelector('.mobile-arrow');
 
-            if (container.scrollLeft > window.innerWidth * 0.4) { // Angepasst für neue Breite
+            // mobile-arrow sofort anzeigen auf Mobilgeräten
+            if (window.innerWidth <= 480 && mobileArrow) {
+                mobileArrow.style.display = 'flex';
+            }
+
+            if (container.scrollLeft > window.innerWidth * 0.4) {
                 if (scrollHint) {
                     scrollHint.style.opacity = '0';
                     setTimeout(() => {
@@ -428,6 +423,7 @@ document.addEventListener('DOMContentLoaded', function () {
             }
         }, 100);
     });
+
 
     // Keyboard Navigation
     document.addEventListener('keydown', function (event) {
