@@ -518,7 +518,7 @@ body {
 /* Responsive Design */
 @media (max-width: 480px) {
     .beach-container {
-        width: 120vw;
+        width: 140vw;
         /* Weniger breit auf mobilen Geräten */
     }
 
@@ -564,7 +564,7 @@ body {
 
 @media (max-width: 320px) {
     .beach-container {
-        width: 110vw;
+        width: 130vw;
     }
 
     .giant-bottle {
