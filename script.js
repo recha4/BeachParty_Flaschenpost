@@ -4,6 +4,24 @@ function setVH() {
     document.documentElement.style.setProperty('--vh', `${vh}px`);
 }
 
+// Zusätzliche Viewport-Reset Funktion
+function resetViewport() {
+    if (window.innerWidth <= 768) {
+        // Scroll to top um Viewport zu resetten
+        window.scrollTo(0, 0);
+
+        // VH neu berechnen
+        setTimeout(() => {
+            setVH();
+        }, 50);
+
+        // Body Focus entfernen (hilft bei iOS)
+        if (document.activeElement) {
+            document.activeElement.blur();
+        }
+    }
+}
+
 // Supabase Konfiguration
 const supabaseUrl = 'https://peamqqtnyxcenycwjvrn.supabase.co';
 const supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InBlYW1xcXRueXhjZW55Y3dqdnJuIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTQ2NjE5NzEsImV4cCI6MjA3MDIzNzk3MX0.w428iHM28kJuX_Hu6GkIZEPl76-iXlTHI0_Nfjw-6wc';
@@ -460,8 +478,6 @@ document.addEventListener('DOMContentLoaded', function () {
             if (messageModal.style.display === 'flex') {
                 sendMessage();
             }
-        } else if (event.key === 'ArrowRight') {
-            scrollToStand();
         }
     });
 
@@ -511,9 +527,17 @@ document.addEventListener('DOMContentLoaded', function () {
     });
 });
 
-// Viewport Height bei Resize/Orientation Change aktualisieren
-window.addEventListener('resize', setVH);
-window.addEventListener('orientationchange', setVH);
+window.addEventListener('resize', () => {
+    setVH();
+    resetViewport();
+});
+
+window.addEventListener('orientationchange', () => {
+    setTimeout(() => {
+        setVH();
+        resetViewport();
+    }, 500); // Delay für Orientation Change
+});
 
 // CSS Animationen dynamisch hinzufügen
 const style = document.createElement('style');
