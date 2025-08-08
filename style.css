@@ -566,7 +566,7 @@ body {
     background: linear-gradient(145deg, #FF7F50, #FF6347);
 }
 
-@media (max-width: 480px) {
+@media (max-width: 768px) {
     .mobile-arrow {
         display: flex;
     }
@@ -574,7 +574,9 @@ body {
     .scroll-hint {
         display: none;
     }
+}
 
+@media (max-width: 480px) {
     .beach-container {
         width: 140vw;
         /* Weniger breit auf mobilen Geräten */
