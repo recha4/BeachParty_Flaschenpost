@@ -255,6 +255,28 @@ function closeMessageModal() {
     // Felder zurücksetzen
     document.getElementById('authorName').value = '';
     document.getElementById('messageText').value = '';
+
+    // Viewport nach Keyboard-Schließung zurücksetzen
+    setTimeout(() => {
+        // Viewport Height neu berechnen
+        setVH();
+
+        // Zusätzlicher Viewport-Reset für Mobile
+        if (window.innerWidth <= 768) {
+            // Body kurz scrollen um Viewport zu "kicken"
+            window.scrollTo(0, 0);
+
+            // Viewport meta tag temporär ändern um Reset zu forcieren
+            const viewport = document.querySelector('meta[name="viewport"]');
+            const originalContent = viewport.content;
+            viewport.content = 'width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no';
+
+            setTimeout(() => {
+                viewport.content = originalContent;
+                setVH(); // VH nochmal neu setzen
+            }, 100);
+        }
+    }, 100);
 }
 
 function openGallery() {
