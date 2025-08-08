@@ -67,8 +67,11 @@ function openMessageModal() {
         navigator.vibrate([50, 50, 50]);
     }
 
-    // Scroll hint ausblenden wenn Modal offen ist
-    document.querySelector('.scroll-hint').style.display = 'none';
+    // Scroll hint und mobile arrow ausblenden wenn Modal offen ist
+    const scrollHint = document.querySelector('.scroll-hint');
+    const mobileArrow = document.querySelector('.mobile-arrow');
+    if (scrollHint) scrollHint.style.display = 'none';
+    if (mobileArrow) mobileArrow.style.display = 'none';
 }
 
 function closeMessageModal() {
@@ -79,8 +82,11 @@ function closeMessageModal() {
     document.getElementById('authorName').value = '';
     document.getElementById('messageText').value = '';
 
-    // Scroll hint wieder einblenden
-    document.querySelector('.scroll-hint').style.display = 'block';
+    // Scroll hint und mobile arrow wieder einblenden
+    const scrollHint = document.querySelector('.scroll-hint');
+    const mobileArrow = document.querySelector('.mobile-arrow');
+    if (scrollHint) scrollHint.style.display = 'block';
+    if (mobileArrow && window.innerWidth <= 480) mobileArrow.style.display = 'flex';
 }
 
 // Nachricht senden mit verbesserter Validierung
@@ -256,8 +262,11 @@ function openGallery() {
     modal.style.display = 'flex';
     updateGallery();
 
-    // Scroll hint ausblenden
-    document.querySelector('.scroll-hint').style.display = 'none';
+    // Scroll hint und mobile arrow ausblenden
+    const scrollHint = document.querySelector('.scroll-hint');
+    const mobileArrow = document.querySelector('.mobile-arrow');
+    if (scrollHint) scrollHint.style.display = 'none';
+    if (mobileArrow) mobileArrow.style.display = 'none';
 
     // Vibration feedback
     if (navigator.vibrate) {
@@ -269,10 +278,14 @@ function closeGallery() {
     const modal = document.getElementById('galleryModal');
     modal.style.display = 'none';
 
-    // Scroll hint wieder einblenden wenn nicht bei der Flasche
+    // Scroll hint und mobile arrow wieder einblenden wenn nicht bei der Flasche
     const container = document.querySelector('.beach-container');
     if (container.scrollLeft < window.innerWidth * 0.6) { // Angepasst für neue Breite
-        document.querySelector('.scroll-hint').style.display = 'block';
+        const scrollHint = document.querySelector('.scroll-hint');
+        const mobileArrow = document.querySelector('.mobile-arrow');
+
+        if (scrollHint) scrollHint.style.display = 'block';
+        if (mobileArrow) mobileArrow.style.display = 'flex';
     }
 }
 
@@ -380,7 +393,7 @@ document.addEventListener('DOMContentLoaded', function () {
     // Initial Gallery laden
     updateGallery();
 
-    // Scroll hint ausblenden wenn zur Flasche gescrollt wird
+    // Scroll hint und mobile arrow ausblenden wenn zur Flasche gescrollt wird
     const container = document.querySelector('.beach-container');
     let scrollTimeout;
 
@@ -388,14 +401,30 @@ document.addEventListener('DOMContentLoaded', function () {
         clearTimeout(scrollTimeout);
         scrollTimeout = setTimeout(() => {
             const scrollHint = document.querySelector('.scroll-hint');
+            const mobileArrow = document.querySelector('.mobile-arrow');
+
             if (container.scrollLeft > window.innerWidth * 0.4) { // Angepasst für neue Breite
-                scrollHint.style.opacity = '0';
-                setTimeout(() => {
-                    scrollHint.style.display = 'none';
-                }, 300);
+                if (scrollHint) {
+                    scrollHint.style.opacity = '0';
+                    setTimeout(() => {
+                        scrollHint.style.display = 'none';
+                    }, 300);
+                }
+                if (mobileArrow) {
+                    mobileArrow.style.opacity = '0';
+                    setTimeout(() => {
+                        mobileArrow.style.display = 'none';
+                    }, 300);
+                }
             } else {
-                scrollHint.style.display = 'block';
-                scrollHint.style.opacity = '1';
+                if (scrollHint) {
+                    scrollHint.style.display = 'block';
+                    scrollHint.style.opacity = '1';
+                }
+                if (mobileArrow) {
+                    mobileArrow.style.display = 'flex';
+                    mobileArrow.style.opacity = '1';
+                }
             }
         }, 100);
     });
