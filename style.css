@@ -16,7 +16,7 @@ body {
     position: relative;
     width: 150vw;
     height: 100vh;
-    background-image: url('strand.png');
+    background-image: url('img/strand.png');
     background-size: cover;
     background-position: center;
     background-repeat: no-repeat;
@@ -41,7 +41,7 @@ body {
     cursor: pointer;
     transition: all 0.3s ease;
     image-rendering: pixelated;
-    background-image: url('flaschenpost.png');
+    background-image: url('img/flaschenpost.png');
     background-size: contain;
     background-repeat: no-repeat;
     background-position: center;
