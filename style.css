@@ -15,13 +15,14 @@ body {
 
 .beach-container {
     position: relative;
-    width: 200vw;
+    width: 150vw;
+    /* Reduziert von 200vw */
     height: 100vh;
     background: linear-gradient(to bottom,
-            #87CEEB 0%,
-            #B0E0E6 30%,
-            #F0E68C 70%,
-            #D2B48C 100%);
+            #4A90E2 0%,
+            #7BB3F0 30%,
+            #F4D03F 70%,
+            #D4AC0D 100%);
 }
 
 /* Strand Szene */
@@ -37,12 +38,19 @@ body {
     bottom: 0;
     width: 100%;
     height: 30%;
-    background: repeating-linear-gradient(45deg,
-            #F0E68C,
-            #F0E68C 8px,
-            #DDD8B0 8px,
-            #DDD8B0 16px);
-    box-shadow: inset 0 5px 15px rgba(0, 0, 0, 0.1);
+    background:
+        repeating-linear-gradient(0deg,
+            #F4D03F 0px,
+            #F4D03F 8px,
+            #D4AC0D 8px,
+            #D4AC0D 16px),
+        repeating-linear-gradient(90deg,
+            #F4D03F 0px,
+            #F4D03F 8px,
+            #E6C547 8px,
+            #E6C547 16px);
+    background-blend-mode: multiply;
+    image-rendering: pixelated;
 }
 
 .waves {
@@ -51,66 +59,72 @@ body {
     left: 0;
     width: 100%;
     height: 8%;
-    background: repeating-linear-gradient(90deg,
-            #4682B4,
-            #4682B4 30px,
-            #5F9EA0 30px,
-            #5F9EA0 60px);
-    animation: waveMove 4s infinite linear;
-    opacity: 0.9;
+    background:
+        repeating-linear-gradient(90deg,
+            #2980B9 0px,
+            #2980B9 16px,
+            #3498DB 16px,
+            #3498DB 32px,
+            #5DADE2 32px,
+            #5DADE2 48px);
+    animation: pixelWaveMove 2s infinite linear;
+    image-rendering: pixelated;
 }
 
-@keyframes waveMove {
+@keyframes pixelWaveMove {
     0% {
         background-position: 0 0;
     }
 
     100% {
-        background-position: 60px 0;
+        background-position: 48px 0;
     }
 }
 
-/* Sonne */
+/* Sonne - Pixel Style */
 .sun {
     position: absolute;
-    top: 10%;
-    right: 15%;
-    width: 80px;
-    height: 80px;
-    background: radial-gradient(circle, #FFD700, #FFA500);
-    border-radius: 50%;
-    box-shadow: 0 0 50px rgba(255, 215, 0, 0.6);
-    animation: sunGlow 3s ease-in-out infinite alternate;
+    top: 15%;
+    right: 20%;
+    width: 64px;
+    height: 64px;
+    background:
+        repeating-linear-gradient(0deg,
+            #F39C12 0px,
+            #F39C12 8px,
+            #E67E22 8px,
+            #E67E22 16px);
+    image-rendering: pixelated;
+    animation: pixelSunBob 4s ease-in-out infinite alternate;
 }
 
 .sun::before {
     content: '';
     position: absolute;
-    top: -20px;
-    left: -20px;
-    width: 120px;
-    height: 120px;
+    top: -8px;
+    left: -8px;
+    width: 80px;
+    height: 80px;
     background:
-        linear-gradient(0deg, transparent 45%, #FFD700 50%, transparent 55%),
-        linear-gradient(45deg, transparent 45%, #FFD700 50%, transparent 55%),
-        linear-gradient(90deg, transparent 45%, #FFD700 50%, transparent 55%),
-        linear-gradient(135deg, transparent 45%, #FFD700 50%, transparent 55%);
-    border-radius: 50%;
-    opacity: 0.4;
-    animation: sunRotate 8s infinite linear;
+        linear-gradient(0deg, transparent 30px, #F39C12 32px, #F39C12 36px, transparent 38px),
+        linear-gradient(45deg, transparent 30px, #F39C12 32px, #F39C12 36px, transparent 38px),
+        linear-gradient(90deg, transparent 30px, #F39C12 32px, #F39C12 36px, transparent 38px),
+        linear-gradient(135deg, transparent 30px, #F39C12 32px, #F39C12 36px, transparent 38px);
+    image-rendering: pixelated;
+    animation: pixelSunRotate 8s infinite linear;
 }
 
-@keyframes sunGlow {
+@keyframes pixelSunBob {
     0% {
-        transform: scale(1);
+        transform: translateY(0);
     }
 
     100% {
-        transform: scale(1.1);
+        transform: translateY(-8px);
     }
 }
 
-@keyframes sunRotate {
+@keyframes pixelSunRotate {
     0% {
         transform: rotate(0deg);
     }
@@ -120,473 +134,351 @@ body {
     }
 }
 
-/* Wolken */
+/* Wolken - Pixel Style */
 .cloud {
     position: absolute;
-    background: #FFF;
-    border-radius: 50px;
-    opacity: 0.8;
-    animation: cloudFloat 20s infinite linear;
+    background:
+        repeating-linear-gradient(0deg,
+            #FFFFFF 0px,
+            #FFFFFF 8px,
+            #F8F9FA 8px,
+            #F8F9FA 16px);
+    image-rendering: pixelated;
+    animation: pixelCloudFloat 25s infinite linear;
 }
 
 .cloud::before,
 .cloud::after {
     content: '';
     position: absolute;
-    background: #FFF;
-    border-radius: 50px;
+    background:
+        repeating-linear-gradient(0deg,
+            #FFFFFF 0px,
+            #FFFFFF 8px,
+            #F8F9FA 8px,
+            #F8F9FA 16px);
+    image-rendering: pixelated;
 }
 
 .cloud-1 {
-    width: 80px;
-    height: 40px;
-    top: 15%;
-    left: 20%;
+    width: 48px;
+    height: 24px;
+    top: 20%;
+    left: 30%;
     animation-delay: 0s;
 }
 
 .cloud-1::before {
-    width: 50px;
-    height: 50px;
-    top: -25px;
-    left: 10px;
+    width: 32px;
+    height: 32px;
+    top: -16px;
+    left: 8px;
 }
 
 .cloud-1::after {
-    width: 60px;
-    height: 40px;
-    top: -15px;
-    right: 10px;
+    width: 40px;
+    height: 24px;
+    top: -8px;
+    right: 0;
 }
 
 .cloud-2 {
-    width: 60px;
-    height: 30px;
+    width: 40px;
+    height: 16px;
     top: 25%;
-    left: 60%;
-    animation-delay: -10s;
+    left: 70%;
+    animation-delay: -12s;
 }
 
 .cloud-2::before {
-    width: 40px;
-    height: 40px;
-    top: -20px;
-    left: 5px;
+    width: 24px;
+    height: 24px;
+    top: -12px;
+    left: 8px;
 }
 
 .cloud-2::after {
-    width: 50px;
-    height: 30px;
-    top: -10px;
-    right: 5px;
+    width: 32px;
+    height: 16px;
+    top: -4px;
+    right: 4px;
 }
 
 .cloud-3 {
-    width: 100px;
-    height: 50px;
-    top: 8%;
-    left: 150%;
-    animation-delay: -5s;
+    width: 56px;
+    height: 32px;
+    top: 12%;
+    left: 110%;
+    animation-delay: -6s;
 }
 
 .cloud-3::before {
-    width: 60px;
-    height: 60px;
-    top: -30px;
-    left: 10px;
+    width: 40px;
+    height: 40px;
+    top: -20px;
+    left: 8px;
 }
 
 .cloud-3::after {
-    width: 70px;
-    height: 50px;
-    top: -20px;
-    right: 10px;
+    width: 48px;
+    height: 32px;
+    top: -12px;
+    right: 0;
 }
 
-@keyframes cloudFloat {
+@keyframes pixelCloudFloat {
     0% {
         transform: translateX(0);
     }
 
     100% {
-        transform: translateX(-100px);
+        transform: translateX(-80px);
     }
 }
 
-/* Palmen */
+/* Palmen - Pixel Style */
 .palm-tree {
     position: absolute;
     bottom: 30%;
-    width: 40px;
-    height: 120px;
+    width: 32px;
+    height: 96px;
+    image-rendering: pixelated;
 }
 
 .palm-tree::before {
     content: '';
     position: absolute;
     bottom: 0;
-    left: 15px;
-    width: 10px;
-    height: 80px;
-    background: linear-gradient(to top, #8B4513, #D2691E);
-    border-radius: 5px;
-    box-shadow: inset 2px 0 rgba(0, 0, 0, 0.2);
+    left: 12px;
+    width: 8px;
+    height: 64px;
+    background:
+        repeating-linear-gradient(0deg,
+            #8B4513 0px,
+            #8B4513 4px,
+            #A0522D 4px,
+            #A0522D 8px);
+    image-rendering: pixelated;
 }
 
 .palm-tree::after {
     content: '';
     position: absolute;
     top: 0;
-    left: 10px;
-    width: 20px;
-    height: 20px;
-    background: #228B22;
-    border-radius: 50% 50% 50% 50% / 60% 60% 40% 40%;
-    box-shadow:
-        -15px -5px 0 -5px #32CD32,
-        15px -5px 0 -5px #32CD32,
-        -20px 5px 0 -8px #228B22,
-        20px 5px 0 -8px #228B22,
-        0 -15px 0 -3px #32CD32;
+    left: 0;
+    width: 32px;
+    height: 32px;
+    background:
+        radial-gradient(circle at center, #228B22 0%, #228B22 40%, transparent 41%),
+        radial-gradient(circle at 8px 8px, #32CD32 0%, #32CD32 30%, transparent 31%),
+        radial-gradient(circle at 24px 8px, #32CD32 0%, #32CD32 30%, transparent 31%),
+        radial-gradient(circle at 8px 24px, #32CD32 0%, #32CD32 30%, transparent 31%),
+        radial-gradient(circle at 24px 24px, #32CD32 0%, #32CD32 30%, transparent 31%),
+        radial-gradient(circle at 16px 4px, #228B22 0%, #228B22 25%, transparent 26%),
+        radial-gradient(circle at 16px 28px, #228B22 0%, #228B22 25%, transparent 26%),
+        radial-gradient(circle at 4px 16px, #228B22 0%, #228B22 25%, transparent 26%),
+        radial-gradient(circle at 28px 16px, #228B22 0%, #228B22 25%, transparent 26%);
+    image-rendering: pixelated;
 }
 
 .left-palm {
-    left: 10%;
-    transform: rotate(-5deg);
+    left: 15%;
 }
 
 .right-palm {
-    right: 20%;
-    transform: rotate(5deg);
+    right: 25%;
 }
 
-/* Möwen */
+/* Möwen - Pixel Style */
 .seagull {
     position: absolute;
-    width: 20px;
-    height: 10px;
-    top: 20%;
-    animation: seagullFly 15s infinite linear;
+    width: 16px;
+    height: 8px;
+    top: 25%;
+    animation: pixelSeagullFly 20s infinite linear;
+    image-rendering: pixelated;
 }
 
 .seagull::before {
     content: '';
     position: absolute;
-    width: 8px;
-    height: 3px;
-    background: #FFF;
-    border-radius: 50% 50% 50% 50% / 80% 80% 20% 20%;
-    box-shadow: 12px 0 0 #FFF;
-    animation: wingFlap 0.5s infinite alternate;
+    width: 6px;
+    height: 2px;
+    background:
+        linear-gradient(90deg, #FFFFFF 0px, #FFFFFF 6px),
+        linear-gradient(90deg, #F8F9FA 0px, #F8F9FA 6px);
+    background-size: 6px 1px, 6px 1px;
+    background-position: 0 0, 10px 0;
+    background-repeat: no-repeat;
+    animation: pixelWingFlap 0.8s infinite alternate;
+    image-rendering: pixelated;
 }
 
 .seagull-1 {
-    left: 30%;
+    left: 40%;
     animation-delay: 0s;
 }
 
 .seagull-2 {
-    left: 70%;
-    animation-delay: -7s;
+    left: 80%;
+    animation-delay: -10s;
 }
 
-@keyframes seagullFly {
+@keyframes pixelSeagullFly {
     0% {
         transform: translateX(0) translateY(0);
     }
 
     25% {
-        transform: translateX(50px) translateY(-10px);
+        transform: translateX(32px) translateY(-8px);
     }
 
     50% {
-        transform: translateX(100px) translateY(5px);
+        transform: translateX(64px) translateY(4px);
     }
 
     75% {
-        transform: translateX(150px) translateY(-5px);
+        transform: translateX(96px) translateY(-4px);
     }
 
     100% {
-        transform: translateX(200px) translateY(0);
+        transform: translateX(128px) translateY(0);
     }
 }
 
-@keyframes wingFlap {
+@keyframes pixelWingFlap {
     0% {
-        transform: rotateZ(0deg);
+        transform: scaleY(1);
     }
 
     100% {
-        transform: rotateZ(15deg);
+        transform: scaleY(1.5);
     }
 }
 
-/* Wegweiser */
-.signpost {
+/* Große Flaschenpost - Pixel Style */
+.giant-bottle {
     position: absolute;
-    left: 80vw;
-    bottom: 40%;
-    width: 100px;
-    height: 140px;
-    cursor: pointer;
-    transition: transform 0.3s ease;
-}
-
-.signpost:hover {
-    transform: scale(1.1);
-}
-
-.signpost-pole {
-    position: absolute;
-    left: 40px;
-    bottom: 0;
-    width: 12px;
-    height: 120px;
-    background: linear-gradient(to right, #8B4513, #A0522D);
-    border-radius: 6px;
-    box-shadow: 3px 0 5px rgba(0, 0, 0, 0.3);
-}
-
-.signpost-arrow {
-    position: absolute;
-    top: 30px;
-    left: 0;
-    width: 0;
-    height: 0;
-    border-left: 50px solid #CD853F;
-    border-top: 20px solid transparent;
-    border-bottom: 20px solid transparent;
-    filter: drop-shadow(3px 3px 3px rgba(0, 0, 0, 0.3));
-}
-
-.signpost-text {
-    position: absolute;
-    top: 35px;
-    left: 8px;
-    color: #654321;
-    font-size: 11px;
-    font-weight: bold;
-    text-shadow: 1px 1px rgba(255, 255, 255, 0.5);
-    letter-spacing: 0.5px;
-}
-
-/* Flaschenpost Stand */
-.bottle-stand {
-    position: absolute;
-    left: 150vw;
-    bottom: 35%;
-    width: 250px;
+    left: 100vw;
+    bottom: 32%;
+    width: 120px;
     height: 180px;
     cursor: pointer;
-    transition: transform 0.3s ease;
+    transition: all 0.3s ease;
+    image-rendering: pixelated;
 }
 
-.bottle-stand:hover {
+.giant-bottle:hover {
     transform: scale(1.05);
     filter: brightness(1.1);
 }
 
-.stand-table {
+.bottle-body {
     position: absolute;
     bottom: 0;
-    width: 100%;
-    height: 50px;
-    background: linear-gradient(to bottom, #DEB887, #8B4513);
-    border: 4px solid #654321;
-    border-radius: 8px;
-    box-shadow:
-        inset 0 5px rgba(255, 255, 255, 0.2),
-        0 5px 15px rgba(0, 0, 0, 0.3);
-}
-
-.stand-table::before {
-    content: '';
-    position: absolute;
-    bottom: -8px;
     left: 20px;
-    width: 8px;
-    height: 15px;
-    background: #654321;
-    border-radius: 4px;
-    box-shadow:
-        30px 0 0 #654321,
-        60px 0 0 #654321,
-        150px 0 0 #654321,
-        180px 0 0 #654321,
-        210px 0 0 #654321;
+    width: 80px;
+    height: 120px;
+    background:
+        repeating-linear-gradient(0deg,
+            #4CAF50 0px,
+            #4CAF50 8px,
+            #66BB6A 8px,
+            #66BB6A 16px),
+        repeating-linear-gradient(90deg,
+            rgba(255, 255, 255, 0.1) 0px,
+            rgba(255, 255, 255, 0.1) 4px,
+            transparent 4px,
+            transparent 8px);
+    border-radius: 0 0 32px 32px;
+    border: 4px solid #2E7D32;
+    box-sizing: border-box;
 }
 
-.stand-sign {
+.bottle-neck {
     position: absolute;
-    top: -20px;
+    bottom: 115px;
+    left: 35px;
+    width: 50px;
+    height: 40px;
+    background:
+        repeating-linear-gradient(0deg,
+            #4CAF50 0px,
+            #4CAF50 4px,
+            #66BB6A 4px,
+            #66BB6A 8px);
+    border: 4px solid #2E7D32;
+    border-bottom: none;
+    box-sizing: border-box;
+}
+
+.bottle-cork {
+    position: absolute;
+    bottom: 150px;
+    left: 40px;
+    width: 40px;
+    height: 24px;
+    background:
+        repeating-linear-gradient(0deg,
+            #8D6E63 0px,
+            #8D6E63 4px,
+            #A1887F 4px,
+            #A1887F 8px);
+    border: 4px solid #5D4037;
+    border-radius: 8px 8px 0 0;
+    box-sizing: border-box;
+}
+
+.bottle-message {
+    position: absolute;
+    bottom: 40px;
+    left: 35px;
+    width: 50px;
+    height: 60px;
+    background:
+        repeating-linear-gradient(45deg,
+            #FFF8DC 0px,
+            #FFF8DC 4px,
+            #F5E6D3 4px,
+            #F5E6D3 8px);
+    border: 2px solid #8B4513;
+    border-radius: 4px;
+    transform: rotate(-5deg);
+}
+
+.bottle-label {
+    position: absolute;
+    bottom: -25px;
     left: 50%;
     transform: translateX(-50%);
-    background: #F5DEB3;
+    background:
+        repeating-linear-gradient(0deg,
+            #F5DEB3 0px,
+            #F5DEB3 2px,
+            #DEB887 2px,
+            #DEB887 4px);
     color: #8B4513;
-    padding: 5px 10px;
-    border: 2px solid #8B4513;
-    border-radius: 5px;
-    font-size: 12px;
+    padding: 8px 16px;
+    border: 3px solid #8B4513;
+    font-size: 14px;
     font-weight: bold;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+    text-shadow: 1px 1px #FFF8DC;
 }
 
-.bottles-container {
+.bottle-shine {
     position: absolute;
-    bottom: 45px;
-    left: 20px;
-    width: 210px;
-    height: 120px;
+    top: 20px;
+    left: 30px;
+    width: 12px;
+    height: 80px;
+    background: linear-gradient(180deg,
+            rgba(255, 255, 255, 0.4) 0%,
+            rgba(255, 255, 255, 0.2) 50%,
+            transparent 100%);
+    border-radius: 6px;
+    pointer-events: none;
 }
 
-.bottle {
-    position: absolute;
-    width: 25px;
-    height: 70px;
-    background: linear-gradient(to bottom, rgba(144, 238, 144, 0.8), rgba(34, 139, 34, 0.9));
-    border: 3px solid #228B22;
-    border-radius: 0 0 12px 12px;
-    transition: transform 0.2s ease;
-    filter: drop-shadow(2px 2px 4px rgba(0, 0, 0, 0.3));
-}
-
-.bottle:hover {
-    transform: translateY(-5px);
-    filter: brightness(1.2) drop-shadow(2px 4px 6px rgba(0, 0, 0, 0.4));
-}
-
-.bottle::before {
-    content: '';
-    position: absolute;
-    top: -12px;
-    left: 7px;
-    width: 11px;
-    height: 18px;
-    background: linear-gradient(to bottom, #8B4513, #654321);
-    border: 2px solid #654321;
-    border-radius: 3px 3px 0 0;
-}
-
-.bottle::after {
-    content: '';
-    position: absolute;
-    top: 15px;
-    left: 5px;
-    width: 15px;
-    height: 2px;
-    background: rgba(255, 255, 255, 0.6);
-    border-radius: 1px;
-    box-shadow: 0 20px 0 rgba(255, 255, 255, 0.4);
-}
-
-/* Flaschen-Positionen */
-.bottle:nth-child(1) {
-    left: 25px;
-    bottom: 0;
-    transform: rotate(-2deg);
-}
-
-.bottle:nth-child(2) {
-    left: 55px;
-    bottom: 15px;
-    transform: rotate(3deg);
-}
-
-.bottle:nth-child(3) {
-    left: 85px;
-    bottom: 8px;
-    transform: rotate(-1deg);
-}
-
-.bottle:nth-child(4) {
-    left: 115px;
-    bottom: 20px;
-    transform: rotate(4deg);
-}
-
-.bottle:nth-child(5) {
-    left: 145px;
-    bottom: 5px;
-    transform: rotate(-3deg);
-}
-
-.bottle:nth-child(6) {
-    left: 175px;
-    bottom: 12px;
-    transform: rotate(2deg);
-}
-
-/* Strandkörbe */
-.beach-chair {
-    position: absolute;
-    bottom: 32%;
-    width: 60px;
-    height: 40px;
-    background: linear-gradient(45deg, #FF6B6B, #4ECDC4);
-    border: 3px solid #FFF;
-    border-radius: 15px 15px 5px 5px;
-    box-shadow: 0 3px 10px rgba(0, 0, 0, 0.2);
-}
-
-.beach-chair::before {
-    content: '';
-    position: absolute;
-    bottom: -15px;
-    left: 10px;
-    width: 8px;
-    height: 15px;
-    background: #8B4513;
-    border-radius: 4px;
-    box-shadow: 32px 0 0 #8B4513;
-}
-
-.chair-1 {
-    left: 30%;
-    transform: rotate(-10deg);
-}
-
-.chair-2 {
-    left: 120%;
-    transform: rotate(15deg);
-}
-
-/* Muscheln und Seesterne */
-.shell,
-.starfish {
-    position: absolute;
-    bottom: 28%;
-}
-
-.shell {
-    width: 20px;
-    height: 15px;
-    background: #F0E68C;
-    border-radius: 50% 50% 50% 50% / 60% 60% 40% 40%;
-    border: 2px solid #DDD8B0;
-    box-shadow: inset 0 2px rgba(255, 255, 255, 0.3);
-}
-
-.shell-1 {
-    left: 25%;
-    transform: rotate(45deg);
-}
-
-.shell-2 {
-    left: 135%;
-    transform: rotate(-30deg);
-}
-
-.starfish {
-    width: 25px;
-    height: 25px;
-    background: #FF7F50;
-    clip-path: polygon(50% 0%, 61% 35%, 98% 35%, 68% 57%, 79% 91%, 50% 70%, 21% 91%, 32% 57%, 2% 35%, 39% 35%);
-}
-
-.starfish-1 {
-    left: 45%;
-}
 
 /* UI Elemente */
 .ui-overlay {
@@ -953,11 +845,20 @@ body {
 }
 
 .message-bottle::before {
-    content: '🍾';
+    content: '';
     position: absolute;
     top: 10px;
     right: 15px;
-    font-size: 24px;
+    width: 24px;
+    height: 24px;
+    background:
+        repeating-linear-gradient(0deg,
+            #4CAF50 0px,
+            #4CAF50 4px,
+            #66BB6A 4px,
+            #66BB6A 8px);
+    border: 2px solid #2E7D32;
+    border-radius: 0 0 8px 8px;
     opacity: 0.7;
 }
 
@@ -1056,29 +957,11 @@ body {
         font-size: 14px;
     }
 
-    .signpost {
-        left: 85vw;
-        width: 80px;
-        height: 120px;
-    }
-
-    .signpost-text {
-        font-size: 9px;
-    }
-
-    .bottle-stand {
-        width: 200px;
-        height: 150px;
-    }
-
-    .bottles-container {
-        width: 160px;
-        height: 100px;
-    }
-
-    .bottle {
-        width: 20px;
-        height: 60px;
+    .giant-bottle {
+        left: 95vw;
+        width: 96px;
+        height: 144px;
+        transform: scale(0.8);
     }
 
     .gallery-btn {
@@ -1096,17 +979,17 @@ body {
     }
 
     .sun {
-        width: 60px;
-        height: 60px;
-        top: 8%;
-        right: 10%;
+        width: 48px;
+        height: 48px;
+        top: 12%;
+        right: 15%;
     }
 
     .sun::before {
-        width: 90px;
-        height: 90px;
-        top: -15px;
-        left: -15px;
+        width: 64px;
+        height: 64px;
+        top: -8px;
+        left: -8px;
     }
 
     .cloud-1,
@@ -1121,12 +1004,9 @@ body {
 }
 
 @media (max-width: 320px) {
-    .signpost {
+    .giant-bottle {
         left: 90vw;
-    }
-
-    .bottle-stand {
-        left: 155vw;
+        transform: scale(0.7);
     }
 
     .message-paper {

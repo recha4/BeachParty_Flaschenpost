@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Beach Party Flaschenpost 🏖️</title>
+    <title>Beach Party Flaschenpost</title>
     <link rel="stylesheet" href="style.css">
 </head>
 
@@ -30,55 +30,35 @@
             <div class="seagull seagull-1"></div>
             <div class="seagull seagull-2"></div>
 
-            <!-- Wegweiser -->
-            <div class="signpost" onclick="scrollToStand()">
-                <div class="signpost-pole"></div>
-                <div class="signpost-arrow"></div>
-                <div class="signpost-text">Flaschenpost</div>
+            <!-- Große Flaschenpost -->
+            <div class="giant-bottle" onclick="openMessageModal()">
+                <div class="bottle-body"></div>
+                <div class="bottle-neck"></div>
+                <div class="bottle-cork"></div>
+                <div class="bottle-message"></div>
+                <div class="bottle-label">Flaschenpost</div>
+                <div class="bottle-shine"></div>
             </div>
-
-            <!-- Flaschenpost Stand -->
-            <div class="bottle-stand" onclick="openMessageModal()">
-                <div class="stand-table"></div>
-                <div class="bottles-container">
-                    <div class="bottle"></div>
-                    <div class="bottle"></div>
-                    <div class="bottle"></div>
-                    <div class="bottle"></div>
-                    <div class="bottle"></div>
-                    <div class="bottle"></div>
-                </div>
-                <div class="stand-sign">Flaschenpost Station</div>
-            </div>
-
-            <!-- Strandkörbe -->
-            <div class="beach-chair chair-1"></div>
-            <div class="beach-chair chair-2"></div>
-
-            <!-- Muscheln und Seesterne -->
-            <div class="shell shell-1"></div>
-            <div class="shell shell-2"></div>
-            <div class="starfish starfish-1"></div>
         </div>
     </div>
 
     <!-- UI Overlay -->
     <div class="ui-overlay">
-        <button class="gallery-btn" onclick="openGallery()">📬 Flaschenposte</button>
-        <div class="scroll-hint">← Scroll nach rechts für Flaschenpost →</div>
+        <button class="gallery-btn" onclick="openGallery()">Flaschenposte</button>
+        <div class="scroll-hint">← Scroll nach rechts für die große Flaschenpost →</div>
     </div>
 
     <!-- Message Modal -->
     <div class="modal" id="messageModal">
         <div class="message-paper">
             <div class="paper-decoration"></div>
-            <h2 class="paper-title">✉️ Deine Flaschenpost</h2>
+            <h2 class="paper-title">Deine Flaschenpost</h2>
             <input type="text" class="name-input" id="authorName" placeholder="Dein Name..." maxlength="50">
             <textarea class="message-textarea" id="messageText"
-                placeholder="Schreibe deine Nachricht an das Jubelpaar...&#10;&#10;Liebe Grüße und alles Gute zum gemeinsamen 100. Geburtstag! 🎉"></textarea>
+                placeholder="Schreibe deine Nachricht an das Jubelpaar...&#10;&#10;Liebe Grüße und alles Gute zum gemeinsamen 100. Geburtstag!"></textarea>
             <div class="button-container">
                 <button class="btn btn-cancel" onclick="closeMessageModal()">Abbrechen</button>
-                <button class="btn btn-send" onclick="sendMessage()">🍾 Ins Meer werfen!</button>
+                <button class="btn btn-send" onclick="sendMessage()">Ins Meer werfen!</button>
             </div>
         </div>
     </div>
@@ -87,7 +67,7 @@
     <div class="gallery-modal" id="galleryModal">
         <div class="gallery-content">
             <span class="close-gallery" onclick="closeGallery()">&times;</span>
-            <h2 class="gallery-title">🏖️ Alle Flaschenposte</h2>
+            <h2 class="gallery-title">Alle Flaschenposte</h2>
             <div id="messagesContainer">
                 <!-- Nachrichten werden hier eingefügt -->
             </div>

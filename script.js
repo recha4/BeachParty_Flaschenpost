@@ -2,25 +2,25 @@
 let messages = [
     {
         author: "Max Mustermann",
-        content: "Herzlichen Glückwunsch zu eurem besonderen Tag! Ihr seid ein wunderbares Paar und habt so viele schöne Jahre zusammen verbracht. Mögen noch viele weitere folgen! 🎉",
+        content: "Herzlichen Glückwunsch zu eurem besonderen Tag! Ihr seid ein wunderbares Paar und habt so viele schöne Jahre zusammen verbracht. Mögen noch viele weitere folgen!",
         timestamp: new Date(Date.now() - 86400000).toISOString() // 1 Tag alt
     },
     {
         author: "Anna Schmidt",
-        content: "Liebe Oma, lieber Opa! Danke für all die tollen Erinnerungen und eure Weisheit. Ihr seid die besten Großeltern der Welt! ❤️",
+        content: "Liebe Oma, lieber Opa! Danke für all die tollen Erinnerungen und eure Weisheit. Ihr seid die besten Großeltern der Welt!",
         timestamp: new Date(Date.now() - 43200000).toISOString() // 12 Stunden alt
     },
     {
         author: "Familie Müller",
-        content: "Was für ein besonderer Meilenstein! 100 Jahre gemeinsam - das ist wahre Liebe. Wir freuen uns darauf, mit euch zu feiern! 🥳🍾",
+        content: "Was für ein besonderer Meilenstein! 100 Jahre gemeinsam - das ist wahre Liebe. Wir freuen uns darauf, mit euch zu feiern!",
         timestamp: new Date(Date.now() - 21600000).toISOString() // 6 Stunden alt
     }
 ];
 
-// Scroll zum Flaschenpost-Stand mit smooth animation
+// Scroll zur großen Flaschenpost mit smooth animation
 function scrollToStand() {
     const container = document.querySelector('.beach-container');
-    const targetScroll = window.innerWidth;
+    const targetScroll = window.innerWidth * 0.7; // Angepasst für 150vw statt 200vw
 
     // Smooth scroll animation
     const startScroll = container.scrollLeft;
@@ -90,25 +90,25 @@ function sendMessage() {
 
     // Validierung
     if (!author) {
-        showNotification('Bitte gib deinen Namen ein! 📝', 'warning');
+        showNotification('Bitte gib deinen Namen ein!', 'warning');
         document.getElementById('authorName').focus();
         return;
     }
 
     if (author.length < 2) {
-        showNotification('Der Name ist etwas kurz. Mindestens 2 Zeichen! ✍️', 'warning');
+        showNotification('Der Name ist etwas kurz. Mindestens 2 Zeichen!', 'warning');
         document.getElementById('authorName').focus();
         return;
     }
 
     if (!content) {
-        showNotification('Bitte schreibe eine Nachricht! 📝', 'warning');
+        showNotification('Bitte schreibe eine Nachricht!', 'warning');
         document.getElementById('messageText').focus();
         return;
     }
 
     if (content.length < 1) {
-        showNotification('Die Nachricht ist zu kurz. Mindestens 1 Zeichen! ✍️', 'warning');
+        showNotification('Die Nachricht ist zu kurz. Mindestens 1 Zeichen!', 'warning');
         document.getElementById('messageText').focus();
         return;
     }
@@ -119,7 +119,7 @@ function sendMessage() {
     const hasForbiddenWord = forbiddenWords.some(word => contentLower.includes(word));
 
     if (hasForbiddenWord) {
-        showNotification('Bitte verwende freundliche Worte für diesen besonderen Tag! 😊', 'warning');
+        showNotification('Bitte verwende freundliche Worte für diesen besonderen Tag!', 'warning');
         return;
     }
 
@@ -139,7 +139,7 @@ function sendMessage() {
     // Modal schließen nach kurzer Verzögerung
     setTimeout(() => {
         closeMessageModal();
-        showNotification('🎉 Deine Flaschenpost wurde ins Meer geworfen!', 'success');
+        showNotification('Deine Flaschenpost wurde ins Meer geworfen!', 'success');
         updateGallery();
     }, 1500);
 
@@ -269,9 +269,9 @@ function closeGallery() {
     const modal = document.getElementById('galleryModal');
     modal.style.display = 'none';
 
-    // Scroll hint wieder einblenden wenn nicht beim Stand
+    // Scroll hint wieder einblenden wenn nicht bei der Flasche
     const container = document.querySelector('.beach-container');
-    if (container.scrollLeft < window.innerWidth * 0.8) {
+    if (container.scrollLeft < window.innerWidth * 0.6) { // Angepasst für neue Breite
         document.querySelector('.scroll-hint').style.display = 'block';
     }
 }
@@ -283,7 +283,7 @@ function updateGallery() {
     if (messages.length === 0) {
         container.innerHTML = `
             <div style="text-align: center; padding: 40px; color: #8B4513; font-style: italic;">
-                <div style="font-size: 48px; margin-bottom: 20px;">🏝️</div>
+                <div style="font-size: 48px; margin-bottom: 20px;">Leer</div>
                 <p>Noch keine Flaschenposte gefunden...</p>
                 <p style="font-size: 12px; margin-top: 10px;">Sei der erste, der eine Nachricht hinterlässt!</p>
             </div>
@@ -316,7 +316,7 @@ function updateGallery() {
         }
 
         messageDiv.innerHTML = `
-            <div class="bottle-preview">🍾 Von: ${escapeHtml(message.author)}</div>
+            <div class="bottle-preview">Von: ${escapeHtml(message.author)}</div>
             <div class="bottle-content" id="content-${index}">
                 <strong>Nachricht:</strong><br>
                 ${escapeHtml(message.content).replace(/\n/g, '<br>')}
@@ -380,7 +380,7 @@ document.addEventListener('DOMContentLoaded', function () {
     // Initial Gallery laden
     updateGallery();
 
-    // Scroll hint ausblenden wenn zum Stand gescrollt wird
+    // Scroll hint ausblenden wenn zur Flasche gescrollt wird
     const container = document.querySelector('.beach-container');
     let scrollTimeout;
 
@@ -388,7 +388,7 @@ document.addEventListener('DOMContentLoaded', function () {
         clearTimeout(scrollTimeout);
         scrollTimeout = setTimeout(() => {
             const scrollHint = document.querySelector('.scroll-hint');
-            if (container.scrollLeft > window.innerWidth * 0.5) {
+            if (container.scrollLeft > window.innerWidth * 0.4) { // Angepasst für neue Breite
                 scrollHint.style.opacity = '0';
                 setTimeout(() => {
                     scrollHint.style.display = 'none';
