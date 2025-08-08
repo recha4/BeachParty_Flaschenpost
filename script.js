@@ -9,9 +9,7 @@ async function sendMessageToSupabase(author, content) {
         .from('messages')
         .insert([{ author, content }]);
 
-    if (error) {
-        console.error('Fehler beim Senden:', error);
-    }
+    return !error;
 }
 
 // Galerie aktualisieren
@@ -65,17 +63,27 @@ function escapeHtml(text) {
     return text.replace(/[&<>"']/g, m => map[m]);
 }
 
-function sendMessage() {
+async function sendMessage() {
     const author = document.getElementById('authorName').value.trim();
     const content = document.getElementById('messageText').value.trim();
-    if (author.length < 2 || content.length < 1) return;
-    sendMessageToSupabase(author, content);
-    showBottleThrowAnimation();
-    setTimeout(() => {
-        closeMessageModal();
-        showNotification('Flaschenpost gesendet!', 'success');
-        updateGallery();
-    }, 1500);
+
+    if (!author || author.length < 2 || !content || content.length < 1) {
+        showNotification('Bitte gültige Nachricht und Namen eingeben!', 'warning');
+        return;
+    }
+
+    const success = await sendMessageToSupabase(author, content);
+
+    if (success) {
+        showBottleThrowAnimation();
+        setTimeout(() => {
+            closeMessageModal();
+            showNotification('Deine Flaschenpost wurde ins Meer geworfen!', 'success');
+            updateGallery();
+        }, 1500);
+    } else {
+        showNotification('Fehler beim Senden der Nachricht!', 'error');
+    }
 }
 
 function openMessageModal() {
