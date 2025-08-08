@@ -60,7 +60,7 @@ async function updateGallery() {
             <div style="text-align: center; padding: 40px; color: #8B4513; font-style: italic;">
                 <div style="font-size: 48px; margin-bottom: 20px;">Leer</div>
                 <p>Noch keine Flaschenpost gefunden...</p>
-                <p style="font-size: 12px; margin-top: 10px;">Sei der erste, der eine Nachricht hinterlässt!</p>
+                <p style="font-size: 12px; margin-top: 10px;">Sei die erste, die eine Nachricht hinterlässt!</p>
             </div>
         `;
         return;
@@ -219,6 +219,12 @@ function openMessageModal() {
     const modal = document.getElementById('messageModal');
     modal.style.display = 'flex';
 
+    // Animation zurücksetzen beim Öffnen
+    const messagesPaper = document.querySelector('.message-paper');
+    messagesPaper.style.animation = 'none';
+    messagesPaper.style.opacity = '1';
+    messagesPaper.style.transform = 'translateY(0) scale(1) rotate(0deg)';
+
     // Focus auf Name-Input
     setTimeout(() => {
         document.getElementById('authorName').focus();
@@ -240,15 +246,15 @@ function closeMessageModal() {
     const modal = document.getElementById('messageModal');
     modal.style.display = 'none';
 
+    // Animation komplett zurücksetzen beim Schliessen
+    const messagesPaper = document.querySelector('.message-paper');
+    messagesPaper.style.animation = 'paperSlideIn 0.4s ease'; // Zurück zur Standard-Animation
+    messagesPaper.style.opacity = '1';
+    messagesPaper.style.transform = 'translateY(0) scale(1) rotate(0deg)';
+
     // Felder zurücksetzen
     document.getElementById('authorName').value = '';
     document.getElementById('messageText').value = '';
-
-    // Show scroll hint and mobile arrow again
-    const scrollHint = document.querySelector('.scroll-hint');
-    const mobileArrow = document.querySelector('.mobile-arrow');
-    if (scrollHint && window.innerWidth > 768) scrollHint.style.display = 'block';
-    if (mobileArrow && window.innerWidth <= 768) mobileArrow.style.display = 'flex';
 }
 
 function openGallery() {
@@ -271,15 +277,6 @@ function openGallery() {
 function closeGallery() {
     const modal = document.getElementById('galleryModal');
     modal.style.display = 'none';
-
-    // Show scroll hint and mobile arrow again if not scrolled to bottle
-    const container = document.querySelector('.beach-container');
-    if (container.scrollLeft < window.innerWidth * 0.6) {
-        const scrollHint = document.querySelector('.scroll-hint');
-        const mobileArrow = document.querySelector('.mobile-arrow');
-        if (scrollHint && window.innerWidth > 768) scrollHint.style.display = 'block';
-        if (mobileArrow && window.innerWidth <= 768) mobileArrow.style.display = 'flex';
-    }
 }
 
 // Flaschenwerf-Animation
