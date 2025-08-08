@@ -18,7 +18,7 @@ body {
     height: 100vh;
     background-image: url('img/strand.png');
     background-size: cover;
-    background-position: center;
+    background-position: bottom;
     background-repeat: no-repeat;
     image-rendering: pixelated;
 
@@ -38,7 +38,7 @@ body {
 .giant-bottle {
     position: absolute;
     right: 5%;
-    bottom: 8%;
+    bottom: 5%;
     width: 120px;
     height: 180px;
     cursor: pointer;
@@ -597,7 +597,7 @@ body {
 
     .giant-bottle {
         right: 3%;
-        bottom: 12%;
+        bottom: 5%;
         width: 80px;
         height: 120px;
     }
