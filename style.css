@@ -588,8 +588,7 @@ html {
 
 @media (max-width: 480px) {
     .beach-container {
-        width: 140vw;
-        /* Weniger breit auf mobilen Geräten */
+        width: 170vw;
     }
 
     .message-paper {
@@ -635,7 +634,7 @@ html {
 
 @media (max-width: 320px) {
     .beach-container {
-        width: 130vw;
+        width: 150vw;
     }
 
     .giant-bottle {
