@@ -43,7 +43,7 @@ html {
     height: 100%;
 }
 
-/* Grosse Flaschenpost aus Bild */
+/* Große Flaschenpost aus Bild */
 .giant-bottle {
     position: absolute;
     right: 5%;
@@ -526,18 +526,18 @@ html {
 
 /* Responsive Design */
 .mobile-arrow {
-    position: absolute;
+    position: fixed;
     bottom: 20px;
-    right: 20px;
+    left: 40%;
+    transform: translateX(-50%);
     width: 60px;
     height: 60px;
-    background: linear-gradient(145deg, #FF6347, #FF4500);
     border: 3px solid #CD5C5C;
     border-radius: 50%;
     cursor: pointer;
     pointer-events: all;
     display: none;
-    /* Standardmässig versteckt */
+    /* Standardmäßig versteckt */
     justify-content: center;
     align-items: center;
     box-shadow:
@@ -570,19 +570,8 @@ html {
     }
 }
 
-@keyframes arrowBounce {
-    0% {
-        transform: translateX(0);
-    }
-
-    100% {
-        transform: translateX(5px);
-    }
-}
-
 .mobile-arrow:active {
     transform: scale(0.95);
-    background: linear-gradient(145deg, #FF7F50, #FF6347);
 }
 
 @media (max-width: 768px) {
