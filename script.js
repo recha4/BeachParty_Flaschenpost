@@ -1,7 +1,13 @@
+// Viewport Height fix für Mobile Browser
+function setVH() {
+    let vh = window.innerHeight * 0.01;
+    document.documentElement.style.setProperty('--vh', `${vh}px`);
+}
+
 // Supabase Konfiguration
 const supabaseUrl = 'https://peamqqtnyxcenycwjvrn.supabase.co';
 const supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InBlYW1xcXRueXhjZW55Y3dqdnJuIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTQ2NjE5NzEsImV4cCI6MjA3MDIzNzk3MX0.w428iHM28kJuX_Hu6GkIZEPl76-iXlTHI0_Nfjw-6wc';
-const supabase = window.supabase.createClient(supabaseUrl, supabaseKey); // FIX: window.supabase
+const supabase = window.supabase.createClient(supabaseUrl, supabaseKey);
 
 // Nachricht zu Supabase senden
 async function sendMessageToSupabase(author, content) {
@@ -69,7 +75,20 @@ async function updateGallery() {
 
         // Zeitformatierung
         const messageDate = new Date(message.created_at);
-        const timeString = messageDate.toLocaleString('de-DE');
+        const now = new Date();
+        const diffMinutes = Math.floor((now - messageDate) / (1000 * 60));
+
+        let timeString;
+        if (diffMinutes < 1) {
+            timeString = 'Gerade eben';
+        } else if (diffMinutes < 60) {
+            timeString = `vor ${diffMinutes} Min.`;
+        } else if (diffMinutes < 1440) {
+            const hours = Math.floor(diffMinutes / 60);
+            timeString = `vor ${hours} Std.`;
+        } else {
+            timeString = messageDate.toLocaleDateString('de-DE');
+        }
 
         messageDiv.innerHTML = `
             <div class="bottle-preview">Von: ${escapeHtml(message.author)}</div>
@@ -137,8 +156,37 @@ async function sendMessage() {
     const content = document.getElementById('messageText').value.trim();
 
     // Validierung
-    if (!author || author.length < 2 || !content || content.length < 1) {
-        showNotification('Bitte gültige Nachricht und Namen eingeben!', 'warning');
+    if (!author) {
+        showNotification('Bitte gib deinen Namen ein!', 'warning');
+        document.getElementById('authorName').focus();
+        return;
+    }
+
+    if (author.length < 2) {
+        showNotification('Der Name ist etwas kurz. Mindestens 2 Zeichen!', 'warning');
+        document.getElementById('authorName').focus();
+        return;
+    }
+
+    if (!content) {
+        showNotification('Bitte schreibe eine Nachricht!', 'warning');
+        document.getElementById('messageText').focus();
+        return;
+    }
+
+    if (content.length < 1) {
+        showNotification('Die Nachricht ist zu kurz. Mindestens 1 Zeichen!', 'warning');
+        document.getElementById('messageText').focus();
+        return;
+    }
+
+    // Profanity Filter (einfach)
+    const forbiddenWords = ['blöd', 'doof', 'dumm', 'hass'];
+    const contentLower = content.toLowerCase();
+    const hasForbiddenWord = forbiddenWords.some(word => contentLower.includes(word));
+
+    if (hasForbiddenWord) {
+        showNotification('Bitte verwende freundliche Worte für diesen besonderen Tag!', 'warning');
         return;
     }
 
@@ -168,8 +216,18 @@ async function sendMessage() {
 
 // Modal-Funktionen
 function openMessageModal() {
-    document.getElementById('messageModal').style.display = 'flex';
-    setTimeout(() => document.getElementById('authorName').focus(), 100);
+    const modal = document.getElementById('messageModal');
+    modal.style.display = 'flex';
+
+    // Focus auf Name-Input
+    setTimeout(() => {
+        document.getElementById('authorName').focus();
+    }, 100);
+
+    // Vibration feedback
+    if (navigator.vibrate) {
+        navigator.vibrate([50, 50, 50]);
+    }
 
     // Hide scroll hint and mobile arrow
     const scrollHint = document.querySelector('.scroll-hint');
@@ -179,7 +237,10 @@ function openMessageModal() {
 }
 
 function closeMessageModal() {
-    document.getElementById('messageModal').style.display = 'none';
+    const modal = document.getElementById('messageModal');
+    modal.style.display = 'none';
+
+    // Felder zurücksetzen
     document.getElementById('authorName').value = '';
     document.getElementById('messageText').value = '';
 
@@ -191,7 +252,8 @@ function closeMessageModal() {
 }
 
 function openGallery() {
-    document.getElementById('galleryModal').style.display = 'flex';
+    const modal = document.getElementById('galleryModal');
+    modal.style.display = 'flex';
     updateGallery();
 
     // Hide scroll hint and mobile arrow
@@ -199,10 +261,16 @@ function openGallery() {
     const mobileArrow = document.querySelector('.mobile-arrow');
     if (scrollHint) scrollHint.style.display = 'none';
     if (mobileArrow) mobileArrow.style.display = 'none';
+
+    // Vibration feedback
+    if (navigator.vibrate) {
+        navigator.vibrate(50);
+    }
 }
 
 function closeGallery() {
-    document.getElementById('galleryModal').style.display = 'none';
+    const modal = document.getElementById('galleryModal');
+    modal.style.display = 'none';
 
     // Show scroll hint and mobile arrow again if not scrolled to bottle
     const container = document.querySelector('.beach-container');
@@ -217,7 +285,16 @@ function closeGallery() {
 // Scroll-Funktionalität für Mobile Arrow
 function scrollToStand() {
     const container = document.querySelector('.beach-container');
-    const targetScroll = window.innerWidth * 0.8; // Scroll zum rechten Bereich
+
+    // Mobile-spezifisches Scroll-Target
+    let targetScroll;
+    if (window.innerWidth <= 480) {
+        targetScroll = window.innerWidth * 1.4; // Für 210vw Container
+    } else if (window.innerWidth <= 768) {
+        targetScroll = window.innerWidth * 1.0; // Für normale Container
+    } else {
+        targetScroll = window.innerWidth * 0.8; // Desktop
+    }
 
     // Smooth scroll animation
     const startScroll = container.scrollLeft;
@@ -256,6 +333,11 @@ function showBottleThrowAnimation() {
     modal.offsetHeight; // Force reflow
     modal.style.animation = 'bottleThrow 1.5s ease-in-out';
     createConfetti();
+
+    // Vibration
+    if (navigator.vibrate) {
+        navigator.vibrate([100, 50, 100, 50, 100]);
+    }
 }
 
 // Konfetti-Effekt
@@ -280,7 +362,7 @@ function createConfetti() {
 
             setTimeout(() => {
                 if (confetti.parentNode) {
-                    confetti.remove();
+                    confetti.parentNode.removeChild(confetti);
                 }
             }, 4000);
         }, i * 50);
@@ -289,8 +371,10 @@ function createConfetti() {
 
 // Notification System
 function showNotification(message, type = 'info') {
-    const existing = document.querySelector('.notification');
-    if (existing) existing.remove();
+    const existingNotification = document.querySelector('.notification');
+    if (existingNotification) {
+        existingNotification.remove();
+    }
 
     const notification = document.createElement('div');
     notification.className = `notification notification-${type}`;
@@ -343,6 +427,9 @@ function showNotification(message, type = 'info') {
 
 // Event Listeners
 document.addEventListener('DOMContentLoaded', function () {
+    // Viewport Height für Mobile setzen
+    setVH();
+
     // Initial Gallery laden
     updateGallery();
 
@@ -356,7 +443,15 @@ document.addEventListener('DOMContentLoaded', function () {
             const scrollHint = document.querySelector('.scroll-hint');
             const mobileArrow = document.querySelector('.mobile-arrow');
 
-            if (container.scrollLeft > window.innerWidth * 0.4) {
+            // Responsive Scroll-Threshold
+            let scrollThreshold;
+            if (window.innerWidth <= 480) {
+                scrollThreshold = window.innerWidth * 0.8; // Für 210vw Container
+            } else {
+                scrollThreshold = window.innerWidth * 0.4; // Normale Container
+            }
+
+            if (container.scrollLeft > scrollThreshold) {
                 // Ausblenden wenn weit gescrollt
                 if (scrollHint) {
                     scrollHint.style.opacity = '0';
@@ -407,7 +502,43 @@ document.addEventListener('DOMContentLoaded', function () {
             closeGallery();
         }
     });
+
+    // Textarea Auto-Resize
+    const textarea = document.getElementById('messageText');
+    textarea.addEventListener('input', function () {
+        this.style.height = 'auto';
+        this.style.height = this.scrollHeight + 'px';
+    });
+
+    // Character counter für Textarea
+    textarea.addEventListener('input', function () {
+        const charCount = this.value.length;
+        const maxChars = 500;
+
+        let counter = document.querySelector('.char-counter');
+        if (!counter) {
+            counter = document.createElement('div');
+            counter.className = 'char-counter';
+            counter.style.cssText = 'text-align: right; font-size: 12px; color: #666; margin-top: 5px;';
+            textarea.parentNode.insertBefore(counter, textarea.nextSibling);
+        }
+
+        counter.textContent = `${charCount}/${maxChars} Zeichen`;
+
+        if (charCount > maxChars) {
+            counter.style.color = '#DC143C';
+            this.value = this.value.substring(0, maxChars);
+        } else if (charCount > maxChars * 0.9) {
+            counter.style.color = '#FF8C00';
+        } else {
+            counter.style.color = '#666';
+        }
+    });
 });
+
+// Viewport Height bei Resize/Orientation Change aktualisieren
+window.addEventListener('resize', setVH);
+window.addEventListener('orientationchange', setVH);
 
 // CSS Animationen dynamisch hinzufügen
 const style = document.createElement('style');
@@ -431,6 +562,11 @@ style.textContent = `
     @keyframes notificationSlideOut {
         from { transform: translateX(0); opacity: 1; }
         to { transform: translateX(100%); opacity: 0; }
+    }
+    
+    @keyframes contentSlideDown {
+        from { opacity: 0; max-height: 0; padding: 0 15px; }
+        to { opacity: 1; max-height: 200px; padding: 15px; }
     }
     
     @keyframes contentSlideUp {
