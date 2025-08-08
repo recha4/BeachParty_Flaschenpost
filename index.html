@@ -11,41 +11,15 @@
 <body>
     <div class="beach-container">
         <div class="beach-scene">
-            <div class="sand"></div>
-            <div class="waves"></div>
-
-            <!-- Palmen -->
-            <div class="palm-tree left-palm"></div>
-            <div class="palm-tree right-palm"></div>
-
-            <!-- Wolken -->
-            <div class="cloud cloud-1"></div>
-            <div class="cloud cloud-2"></div>
-            <div class="cloud cloud-3"></div>
-
-            <!-- Sonne -->
-            <div class="sun"></div>
-
-            <!-- Möwen -->
-            <div class="seagull seagull-1"></div>
-            <div class="seagull seagull-2"></div>
-
             <!-- Große Flaschenpost -->
-            <div class="giant-bottle" onclick="openMessageModal()">
-                <div class="bottle-body"></div>
-                <div class="bottle-neck"></div>
-                <div class="bottle-cork"></div>
-                <div class="bottle-message"></div>
-                <div class="bottle-label">Flaschenpost</div>
-                <div class="bottle-shine"></div>
-            </div>
+            <div class="giant-bottle" onclick="openMessageModal()"></div>
         </div>
     </div>
 
     <!-- UI Overlay -->
     <div class="ui-overlay">
-        <button class="gallery-btn" onclick="openGallery()">Flaschenposte</button>
-        <div class="scroll-hint">← Scroll nach rechts für die große Flaschenpost →</div>
+        <button class="gallery-btn" onclick="openGallery()">Flaschenpost</button>
+        <div class="scroll-hint">Scroll nach rechts →</div>
     </div>
 
     <!-- Message Modal -->
@@ -67,7 +41,7 @@
     <div class="gallery-modal" id="galleryModal">
         <div class="gallery-content">
             <span class="close-gallery" onclick="closeGallery()">&times;</span>
-            <h2 class="gallery-title">Alle Flaschenposte</h2>
+            <h2 class="gallery-title">Alle Flaschenpost</h2>
             <div id="messagesContainer">
                 <!-- Nachrichten werden hier eingefügt -->
             </div>
