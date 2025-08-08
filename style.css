@@ -38,7 +38,7 @@ body {
 .giant-bottle {
     position: absolute;
     right: 5%;
-    bottom: 15%;
+    bottom: 8%;
     width: 120px;
     height: 180px;
     cursor: pointer;
@@ -516,7 +516,65 @@ body {
 }
 
 /* Responsive Design */
+.mobile-arrow {
+    position: absolute;
+    bottom: 20px;
+    right: 20px;
+    width: 60px;
+    height: 60px;
+    background: linear-gradient(145deg, #FF6347, #FF4500);
+    border: 3px solid #CD5C5C;
+    border-radius: 50%;
+    cursor: pointer;
+    pointer-events: all;
+    display: none;
+    /* Standardmäßig versteckt */
+    justify-content: center;
+    align-items: center;
+    box-shadow:
+        0 5px 15px rgba(0, 0, 0, 0.3),
+        inset 0 2px rgba(255, 255, 255, 0.2);
+    animation: arrowPulse 1.5s infinite;
+    z-index: 1001;
+}
+
+@keyframes arrowPulse {
+    0% {
+        transform: scale(1);
+        box-shadow:
+            0 5px 15px rgba(0, 0, 0, 0.3),
+            0 0 0 0 rgba(255, 99, 71, 0.4);
+    }
+
+    50% {
+        transform: scale(1.1);
+        box-shadow:
+            0 8px 20px rgba(0, 0, 0, 0.4),
+            0 0 0 10px rgba(255, 99, 71, 0.1);
+    }
+
+    100% {
+        transform: scale(1);
+        box-shadow:
+            0 5px 15px rgba(0, 0, 0, 0.3),
+            0 0 0 20px rgba(255, 99, 71, 0);
+    }
+}
+
+.mobile-arrow:active {
+    transform: scale(0.95);
+    background: linear-gradient(145deg, #FF7F50, #FF6347);
+}
+
 @media (max-width: 480px) {
+    .mobile-arrow {
+        display: flex;
+    }
+
+    .scroll-hint {
+        display: none;
+    }
+
     .beach-container {
         width: 140vw;
         /* Weniger breit auf mobilen Geräten */
@@ -569,7 +627,7 @@ body {
 
     .giant-bottle {
         right: 2%;
-        bottom: 10%;
+        bottom: 5%;
         width: 64px;
         height: 96px;
     }
