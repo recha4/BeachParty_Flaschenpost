@@ -276,25 +276,29 @@ function closeMessageModal() {
 
     // Viewport nach Keyboard-Schließung zurücksetzen
     setTimeout(() => {
-        // Viewport Height neu berechnen
+        // Body scrollen und Input-Blur erzwingen
+        window.scrollTo(0, 0);
+        if (document.activeElement) {
+            document.activeElement.blur();
+        }
+
+        // Viewport-Höhe aktualisieren
         setVH();
 
-        // Zusätzlicher Viewport-Reset für Mobile
-        if (window.innerWidth <= 768) {
-            // Body kurz scrollen um Viewport zu "kicken"
-            window.scrollTo(0, 0);
+        // Zoom-Reset durch Meta-Tag temporär
+        const viewport = document.querySelector('meta[name="viewport"]');
+        const originalContent = viewport.content;
 
-            // Viewport meta tag temporär ändern um Reset zu forcieren
-            const viewport = document.querySelector('meta[name="viewport"]');
-            const originalContent = viewport.content;
-            viewport.content = 'width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no';
+        viewport.content = 'width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no';
 
-            setTimeout(() => {
-                viewport.content = originalContent;
-                setVH(); // VH nochmal neu setzen
-            }, 100);
-        }
-    }, 100);
+        // Zurücksetzen nach kurzem Delay
+        setTimeout(() => {
+            viewport.content = originalContent;
+            setVH();
+            window.scrollTo(0, 0); // Sicherstellen, dass wirklich oben
+        }, 250);
+    }, 150); // Etwas mehr Delay hilft bei iOS
+
 }
 
 function openGallery() {
