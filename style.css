@@ -8,19 +8,19 @@ body {
     font-family: 'Courier New', monospace;
     overflow-x: auto;
     overflow-y: hidden;
-    height: 100vh;
+    height: calc(var(--vh, 1vh)*100);
     user-select: none;
 }
 
 html {
-    height: 100%;
+    height: calc(var(--vh, 1vh)*100);
     overflow: hidden;
 }
 
 .beach-container {
     position: relative;
     width: 150vw;
-    height: 100vh;
+    height: calc(var(--vh, 1vh)*100);
     overflow-y: hidden;
     background-image: url('img/strand.png');
     background-size: cover;
