@@ -608,6 +608,7 @@ html {
     }
 
     .giant-bottle {
+        position: absolute;
         right: 4%;
         bottom: 20px;
         width: 80px;
@@ -638,6 +639,7 @@ html {
     }
 
     .giant-bottle {
+        position: absolute;
         right: 3%;
         bottom: 20px;
         width: 64px;
