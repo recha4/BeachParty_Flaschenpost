@@ -1,0 +1,869 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Courier New', monospace;
+    background: linear-gradient(to bottom, #87CEEB 0%, #B0E0E6 50%, #87CEEB 100%);
+    overflow-x: auto;
+    overflow-y: hidden;
+    height: 100vh;
+    user-select: none;
+}
+
+.beach-container {
+    position: relative;
+    width: 200vw;
+    height: 100vh;
+    background: linear-gradient(to bottom,
+            #87CEEB 0%,
+            #B0E0E6 30%,
+            #F0E68C 70%,
+            #D2B48C 100%);
+}
+
+/* Strand Szene */
+.beach-scene {
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    height: 100%;
+}
+
+.sand {
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    height: 30%;
+    background: repeating-linear-gradient(45deg,
+            #F0E68C,
+            #F0E68C 8px,
+            #DDD8B0 8px,
+            #DDD8B0 16px);
+    box-shadow: inset 0 5px 15px rgba(0, 0, 0, 0.1);
+}
+
+.waves {
+    position: absolute;
+    bottom: 25%;
+    left: 0;
+    width: 100%;
+    height: 8%;
+    background: repeating-linear-gradient(90deg,
+            #4682B4,
+            #4682B4 30px,
+            #5F9EA0 30px,
+            #5F9EA0 60px);
+    animation: waveMove 4s infinite linear;
+    opacity: 0.9;
+}
+
+@keyframes waveMove {
+    0% {
+        background-position: 0 0;
+    }
+
+    100% {
+        background-position: 60px 0;
+    }
+}
+
+/* Sonne */
+.sun {
+    position: absolute;
+    top: 10%;
+    right: 15%;
+    width: 80px;
+    height: 80px;
+    background: radial-gradient(circle, #FFD700, #FFA500);
+    border-radius: 50%;
+    box-shadow: 0 0 50px rgba(255, 215, 0, 0.6);
+    animation: sunGlow 3s ease-in-out infinite alternate;
+}
+
+.sun::before {
+    content: '';
+    position: absolute;
+    top: -20px;
+    left: -20px;
+    width: 120px;
+    height: 120px;
+    background:
+        linear-gradient(0deg, transparent 45%, #FFD700 50%, transparent 55%),
+        linear-gradient(45deg, transparent 45%, #FFD700 50%, transparent 55%),
+        linear-gradient(90deg, transparent 45%, #FFD700 50%, transparent 55%),
+        linear-gradient(135deg, transparent 45%, #FFD700 50%, transparent 55%);
+    border-radius: 50%;
+    opacity: 0.4;
+    animation: sunRotate 8s infinite linear;
+}
+
+@keyframes sunGlow {
+    0% {
+        transform: scale(1);
+    }
+
+    100% {
+        transform: scale(1.1);
+    }
+}
+
+@keyframes sunRotate {
+    0% {
+        transform: rotate(0deg);
+    }
+
+    100% {
+        transform: rotate(360deg);
+    }
+}
+
+/* Wolken */
+.cloud {
+    position: absolute;
+    background: #FFF;
+    border-radius: 50px;
+    opacity: 0.8;
+    animation: cloudFloat 20s infinite linear;
+}
+
+.cloud::before,
+.cloud::after {
+    content: '';
+    position: absolute;
+    background: #FFF;
+    border-radius: 50px;
+}
+
+.cloud-1 {
+    width: 80px;
+    height: 40px;
+    top: 15%;
+    left: 20%;
+    animation-delay: 0s;
+}
+
+.cloud-1::before {
+    width: 50px;
+    height: 50px;
+    top: -25px;
+    left: 10px;
+}
+
+.cloud-1::after {
+    width: 60px;
+    height: 40px;
+    top: -15px;
+    right: 10px;
+}
+
+.cloud-2 {
+    width: 60px;
+    height: 30px;
+    top: 25%;
+    left: 60%;
+    animation-delay: -10s;
+}
+
+.cloud-2::before {
+    width: 40px;
+    height: 40px;
+    top: -20px;
+    left: 5px;
+}
+
+.cloud-2::after {
+    width: 50px;
+    height: 30px;
+    top: -10px;
+    right: 5px;
+}
+
+.cloud-3 {
+    width: 100px;
+    height: 50px;
+    top: 8%;
+    left: 150%;
+    animation-delay: -5s;
+}
+
+.cloud-3::before {
+    width: 60px;
+    height: 60px;
+    top: -30px;
+    left: 10px;
+}
+
+.cloud-3::after {
+    width: 70px;
+    height: 50px;
+    top: -20px;
+    right: 10px;
+}
+
+@keyframes cloudFloat {
+    0% {
+        transform: translateX(0);
+    }
+
+    100% {
+        transform: translateX(-100px);
+    }
+}
+
+/* Palmen */
+.palm-tree {
+    position: absolute;
+    bottom: 30%;
+    width: 40px;
+    height: 120px;
+}
+
+.palm-tree::before {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 15px;
+    width: 10px;
+    height: 80px;
+    background: linear-gradient(to top, #8B4513, #D2691E);
+    border-radius: 5px;
+    box-shadow: inset 2px 0 rgba(0, 0, 0, 0.2);
+}
+
+.palm-tree::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 10px;
+    width: 20px;
+    height: 20px;
+    background: #228B22;
+    border-radius: 50% 50% 50% 50% / 60% 60% 40% 40%;
+    box-shadow:
+        -15px -5px 0 -5px #32CD32,
+        15px -5px 0 -5px #32CD32,
+        -20px 5px 0 -8px #228B22,
+        20px 5px 0 -8px #228B22,
+        0 -15px 0 -3px #32CD32;
+}
+
+.left-palm {
+    left: 10%;
+    transform: rotate(-5deg);
+}
+
+.right-palm {
+    right: 20%;
+    transform: rotate(5deg);
+}
+
+/* Möwen */
+.seagull {
+    position: absolute;
+    width: 20px;
+    height: 10px;
+    top: 20%;
+    animation: seagullFly 15s infinite linear;
+}
+
+.seagull::before {
+    content: '';
+    position: absolute;
+    width: 8px;
+    height: 3px;
+    background: #FFF;
+    border-radius: 50% 50% 50% 50% / 80% 80% 20% 20%;
+    box-shadow: 12px 0 0 #FFF;
+    animation: wingFlap 0.5s infinite alternate;
+}
+
+.seagull-1 {
+    left: 30%;
+    animation-delay: 0s;
+}
+
+.seagull-2 {
+    left: 70%;
+    animation-delay: -7s;
+}
+
+@keyframes seagullFly {
+    0% {
+        transform: translateX(0) translateY(0);
+    }
+
+    25% {
+        transform: translateX(50px) translateY(-10px);
+    }
+
+    50% {
+        transform: translateX(100px) translateY(5px);
+    }
+
+    75% {
+        transform: translateX(150px) translateY(-5px);
+    }
+
+    100% {
+        transform: translateX(200px) translateY(0);
+    }
+}
+
+@keyframes wingFlap {
+    0% {
+        transform: rotateZ(0deg);
+    }
+
+    100% {
+        transform: rotateZ(15deg);
+    }
+}
+
+/* Wegweiser */
+.signpost {
+    position: absolute;
+    left: 80vw;
+    bottom: 40%;
+    width: 100px;
+    height: 140px;
+    cursor: pointer;
+    transition: transform 0.3s ease;
+}
+
+.signpost:hover {
+    transform: scale(1.1);
+}
+
+.signpost-pole {
+    position: absolute;
+    left: 40px;
+    bottom: 0;
+    width: 12px;
+    height: 120px;
+    background: linear-gradient(to right, #8B4513, #A0522D);
+    border-radius: 6px;
+    box-shadow: 3px 0 5px rgba(0, 0, 0, 0.3);
+}
+
+.signpost-arrow {
+    position: absolute;
+    top: 30px;
+    left: 0;
+    width: 0;
+    height: 0;
+    border-left: 50px solid #CD853F;
+    border-top: 20px solid transparent;
+    border-bottom: 20px solid transparent;
+    filter: drop-shadow(3px 3px 3px rgba(0, 0, 0, 0.3));
+}
+
+.signpost-text {
+    position: absolute;
+    top: 35px;
+    left: 8px;
+    color: #654321;
+    font-size: 11px;
+    font-weight: bold;
+    text-shadow: 1px 1px rgba(255, 255, 255, 0.5);
+    letter-spacing: 0.5px;
+}
+
+/* Flaschenpost Stand */
+.bottle-stand {
+    position: absolute;
+    left: 150vw;
+    bottom: 35%;
+    width: 250px;
+    height: 180px;
+    cursor: pointer;
+    transition: transform 0.3s ease;
+}
+
+.bottle-stand:hover {
+    transform: scale(1.05);
+    filter: brightness(1.1);
+}
+
+.stand-table {
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    height: 50px;
+    background: linear-gradient(to bottom, #DEB887, #8B4513);
+    border: 4px solid #654321;
+    border-radius: 8px;
+    box-shadow:
+        inset 0 5px rgba(255, 255, 255, 0.2),
+        0 5px 15px rgba(0, 0, 0, 0.3);
+}
+
+.stand-table::before {
+    content: '';
+    position: absolute;
+    bottom: -8px;
+    left: 20px;
+    width: 8px;
+    height: 15px;
+    background: #654321;
+    border-radius: 4px;
+    box-shadow:
+        30px 0 0 #654321,
+        60px 0 0 #654321,
+        150px 0 0 #654321,
+        180px 0 0 #654321,
+        210px 0 0 #654321;
+}
+
+.stand-sign {
+    position: absolute;
+    top: -20px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: #F5DEB3;
+    color: #8B4513;
+    padding: 5px 10px;
+    border: 2px solid #8B4513;
+    border-radius: 5px;
+    font-size: 12px;
+    font-weight: bold;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+}
+
+.bottles-container {
+    position: absolute;
+    bottom: 45px;
+    left: 20px;
+    width: 210px;
+    height: 120px;
+}
+
+.bottle {
+    position: absolute;
+    width: 25px;
+    height: 70px;
+    background: linear-gradient(to bottom, rgba(144, 238, 144, 0.8), rgba(34, 139, 34, 0.9));
+    border: 3px solid #228B22;
+    border-radius: 0 0 12px 12px;
+    transition: transform 0.2s ease;
+    filter: drop-shadow(2px 2px 4px rgba(0, 0, 0, 0.3));
+}
+
+.bottle:hover {
+    transform: translateY(-5px);
+    filter: brightness(1.2) drop-shadow(2px 4px 6px rgba(0, 0, 0, 0.4));
+}
+
+.bottle::before {
+    content: '';
+    position: absolute;
+    top: -12px;
+    left: 7px;
+    width: 11px;
+    height: 18px;
+    background: linear-gradient(to bottom, #8B4513, #654321);
+    border: 2px solid #654321;
+    border-radius: 3px 3px 0 0;
+}
+
+.bottle::after {
+    content: '';
+    position: absolute;
+    top: 15px;
+    left: 5px;
+    width: 15px;
+    height: 2px;
+    background: rgba(255, 255, 255, 0.6);
+    border-radius: 1px;
+    box-shadow: 0 20px 0 rgba(255, 255, 255, 0.4);
+}
+
+/* Flaschen-Positionen */
+.bottle:nth-child(1) {
+    left: 25px;
+    bottom: 0;
+    transform: rotate(-2deg);
+}
+
+.bottle:nth-child(2) {
+    left: 55px;
+    bottom: 15px;
+    transform: rotate(3deg);
+}
+
+.bottle:nth-child(3) {
+    left: 85px;
+    bottom: 8px;
+    transform: rotate(-1deg);
+}
+
+.bottle:nth-child(4) {
+    left: 115px;
+    bottom: 20px;
+    transform: rotate(4deg);
+}
+
+.bottle:nth-child(5) {
+    left: 145px;
+    bottom: 5px;
+    transform: rotate(-3deg);
+}
+
+.bottle:nth-child(6) {
+    left: 175px;
+    bottom: 12px;
+    transform: rotate(2deg);
+}
+
+/* Strandkörbe */
+.beach-chair {
+    position: absolute;
+    bottom: 32%;
+    width: 60px;
+    height: 40px;
+    background: linear-gradient(45deg, #FF6B6B, #4ECDC4);
+    border: 3px solid #FFF;
+    border-radius: 15px 15px 5px 5px;
+    box-shadow: 0 3px 10px rgba(0, 0, 0, 0.2);
+}
+
+.beach-chair::before {
+    content: '';
+    position: absolute;
+    bottom: -15px;
+    left: 10px;
+    width: 8px;
+    height: 15px;
+    background: #8B4513;
+    border-radius: 4px;
+    box-shadow: 32px 0 0 #8B4513;
+}
+
+.chair-1 {
+    left: 30%;
+    transform: rotate(-10deg);
+}
+
+.chair-2 {
+    left: 120%;
+    transform: rotate(15deg);
+}
+
+/* Muscheln und Seesterne */
+.shell,
+.starfish {
+    position: absolute;
+    bottom: 28%;
+}
+
+.shell {
+    width: 20px;
+    height: 15px;
+    background: #F0E68C;
+    border-radius: 50% 50% 50% 50% / 60% 60% 40% 40%;
+    border: 2px solid #DDD8B0;
+    box-shadow: inset 0 2px rgba(255, 255, 255, 0.3);
+}
+
+.shell-1 {
+    left: 25%;
+    transform: rotate(45deg);
+}
+
+.shell-2 {
+    left: 135%;
+    transform: rotate(-30deg);
+}
+
+.starfish {
+    width: 25px;
+    height: 25px;
+    background: #FF7F50;
+    clip-path: polygon(50% 0%, 61% 35%, 98% 35%, 68% 57%, 79% 91%, 50% 70%, 21% 91%, 32% 57%, 2% 35%, 39% 35%);
+}
+
+.starfish-1 {
+    left: 45%;
+}
+
+/* UI Elemente */
+.ui-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    pointer-events: none;
+    z-index: 1000;
+}
+
+.gallery-btn {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    padding: 15px 25px;
+    background: linear-gradient(145deg, #FF6347, #FF4500);
+    color: white;
+    border: 3px solid #CD5C5C;
+    border-radius: 15px;
+    font-family: 'Courier New', monospace;
+    font-weight: bold;
+    font-size: 14px;
+    cursor: pointer;
+    pointer-events: all;
+    box-shadow:
+        0 5px 15px rgba(0, 0, 0, 0.3),
+        inset 0 2px rgba(255, 255, 255, 0.2);
+    transition: all 0.3s ease;
+}
+
+.gallery-btn:hover {
+    transform: translateY(-3px);
+    box-shadow:
+        0 8px 20px rgba(0, 0, 0, 0.4),
+        inset 0 2px rgba(255, 255, 255, 0.3);
+    background: linear-gradient(145deg, #FF7F50, #FF6347);
+}
+
+.gallery-btn:active {
+    transform: translateY(-1px);
+    box-shadow:
+        0 3px 10px rgba(0, 0, 0, 0.3),
+        inset 0 2px rgba(255, 255, 255, 0.2);
+}
+
+.scroll-hint {
+    position: absolute;
+    bottom: 30px;
+    left: 50%;
+    transform: translateX(-50%);
+    color: #654321;
+    font-size: 16px;
+    font-weight: bold;
+    text-shadow: 1px 1px rgba(255, 255, 255, 0.7);
+    animation: pulse 2s infinite;
+    background: rgba(255, 255, 255, 0.8);
+    padding: 10px 20px;
+    border-radius: 20px;
+    border: 2px solid #8B4513;
+}
+
+@keyframes pulse {
+
+    0%,
+    100% {
+        opacity: 0.8;
+        transform: translateX(-50%) scale(1);
+    }
+
+    50% {
+        opacity: 1;
+        transform: translateX(-50%) scale(1.05);
+    }
+}
+
+/* Modal für Flaschenpost */
+.modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background: rgba(0, 0, 0, 0.8);
+    backdrop-filter: blur(5px);
+    display: none;
+    justify-content: center;
+    align-items: center;
+    z-index: 2000;
+    animation: modalFadeIn 0.3s ease;
+}
+
+@keyframes modalFadeIn {
+    from {
+        opacity: 0;
+    }
+
+    to {
+        opacity: 1;
+    }
+}
+
+.message-paper {
+    width: 90%;
+    max-width: 450px;
+    height: 550px;
+    background: linear-gradient(135deg, #F5E6D3, #FFF8DC);
+    border: 4px solid #8B4513;
+    border-radius: 15px;
+    padding: 35px;
+    box-shadow:
+        0 10px 30px rgba(0, 0, 0, 0.5),
+        inset 0 2px rgba(255, 255, 255, 0.3);
+    position: relative;
+    animation: paperSlideIn 0.4s ease;
+}
+
+@keyframes paperSlideIn {
+    from {
+        transform: translateY(-50px) scale(0.9);
+        opacity: 0;
+    }
+
+    to {
+        transform: translateY(0) scale(1);
+        opacity: 1;
+    }
+}
+
+.paper-decoration {
+    position: absolute;
+    top: -8px;
+    left: 30px;
+    width: 30px;
+    height: 30px;
+    background: radial-gradient(circle, #CD853F, #8B4513);
+    border-radius: 50%;
+    box-shadow:
+        0 3px 8px rgba(0, 0, 0, 0.3),
+        inset 0 2px rgba(255, 255, 255, 0.2);
+}
+
+.paper-decoration::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 15px;
+    height: 15px;
+    background: #654321;
+    border-radius: 50%;
+}
+
+.paper-title {
+    font-size: 22px;
+    text-align: center;
+    margin-bottom: 25px;
+    color: #8B4513;
+    text-decoration: underline;
+    text-decoration-color: #CD853F;
+    text-shadow: 1px 1px rgba(255, 255, 255, 0.5);
+}
+
+.name-input {
+    width: 100%;
+    padding: 15px;
+    margin-bottom: 20px;
+    border: 3px solid #8B4513;
+    border-radius: 10px;
+    font-family: 'Courier New', monospace;
+    font-size: 16px;
+    background: linear-gradient(135deg, #FFF8DC, #F5F5DC);
+    box-shadow: inset 0 2px 5px rgba(0, 0, 0, 0.1);
+    transition: all 0.3s ease;
+}
+
+.name-input:focus {
+    outline: none;
+    border-color: #CD853F;
+    box-shadow:
+        inset 0 2px 5px rgba(0, 0, 0, 0.1),
+        0 0 10px rgba(205, 133, 63, 0.3);
+    transform: translateY(-2px);
+}
+
+.message-textarea {
+    width: 100%;
+    height: 220px;
+    padding: 20px;
+    border: 3px solid #8B4513;
+    border-radius: 10px;
+    font-family: 'Courier New', monospace;
+    font-size: 16px;
+    resize: none;
+    background: linear-gradient(135deg, #FFF8DC, #F5F5DC);
+    line-height: 1.6;
+    box-shadow: inset 0 2px 5px rgba(0, 0, 0, 0.1);
+    transition: all 0.3s ease;
+}
+
+.message-textarea:focus {
+    outline: none;
+    border-color: #CD853F;
+    box-shadow:
+        inset 0 2px 5px rgba(0, 0, 0, 0.1),
+        0 0 10px rgba(205, 133, 63, 0.3);
+    transform: translateY(-2px);
+}
+
+.button-container {
+    display: flex;
+    gap: 15px;
+    margin-top: 25px;
+    justify-content: space-between;
+}
+
+.btn {
+    padding: 15px 25px;
+    border: 3px solid;
+    border-radius: 12px;
+    font-family: 'Courier New', monospace;
+    font-weight: bold;
+    font-size: 14px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    position: relative;
+    overflow: hidden;
+}
+
+.btn::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+    transition: left 0.5s;
+}
+
+.btn:hover::before {
+    left: 100%;
+}
+
+.btn-send {
+    background: linear-gradient(145deg, #32CD32, #228B22);
+    color: white;
+    border-color: #228B22;
+    box-shadow:
+        0 5px 15px rgba(0, 0, 0, 0.3),
+        inset 0 2px rgba(255, 255, 255, 0.2);
+    flex: 1;
+}
+
+.btn-send:hover {
+    transform: translateY(-3px);
+    box-shadow:
+        0 8px 20px rgba(0, 0, 0, 0.4),
+        inset 0 2px rgba(255, 255, 255, 0.3);
+    background: linear-gradient(145deg, #3CB371, #32CD32);
+}
+
+.btn-cancel {
+    background: linear-gradient(145deg, #FF6347, #CD5C5C);
+    color: white;
+    border-color: #CD5C5C;
+    box-shadow:
+        0 5px 15px rgba(0, 0, 0, 0.3),
+        inset 0 2px rgba(255, 255, 255, 0.2);
+}
+
+.btn-cancel:hover {
+    transform: translateY(-3px);
+    box-shadow:
+        0 8px 20px rgba(0, 0, 0, 0.4),
+        inset 0 2px rgba(255, 255, 255, 0.3);
+    background: linear-gradient(145deg, #3CB371, #32CD32);
+}
