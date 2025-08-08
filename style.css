@@ -21,6 +21,9 @@ body {
     background-position: center;
     background-repeat: no-repeat;
     image-rendering: pixelated;
+
+    /*Fallback color*/
+    background-color: #87CEEB;
 }
 
 /* Strand Szene */
