@@ -59,7 +59,7 @@ async function updateGallery() {
         container.innerHTML = `
             <div style="text-align: center; padding: 40px; color: #8B4513; font-style: italic;">
                 <div style="font-size: 48px; margin-bottom: 20px;">Leer</div>
-                <p>Noch keine Flaschenposte gefunden...</p>
+                <p>Noch keine Flaschenpost gefunden...</p>
                 <p style="font-size: 12px; margin-top: 10px;">Sei der erste, der eine Nachricht hinterlässt!</p>
             </div>
         `;
@@ -282,50 +282,6 @@ function closeGallery() {
     }
 }
 
-// Scroll-Funktionalität für Mobile Arrow
-function scrollToStand() {
-    const container = document.querySelector('.beach-container');
-
-    // Mobile-spezifisches Scroll-Target
-    let targetScroll;
-    if (window.innerWidth <= 480) {
-        targetScroll = window.innerWidth * 1.4; // Für 210vw Container
-    } else if (window.innerWidth <= 768) {
-        targetScroll = window.innerWidth * 1.0; // Für normale Container
-    } else {
-        targetScroll = window.innerWidth * 0.8; // Desktop
-    }
-
-    // Smooth scroll animation
-    const startScroll = container.scrollLeft;
-    const distance = targetScroll - startScroll;
-    const duration = 1000;
-    const startTime = performance.now();
-
-    function animateScroll(currentTime) {
-        const elapsed = currentTime - startTime;
-        const progress = Math.min(elapsed / duration, 1);
-
-        // Easing function
-        const easeInOutCubic = progress < 0.5
-            ? 4 * progress * progress * progress
-            : 1 - Math.pow(-2 * progress + 2, 3) / 2;
-
-        container.scrollLeft = startScroll + (distance * easeInOutCubic);
-
-        if (progress < 1) {
-            requestAnimationFrame(animateScroll);
-        }
-    }
-
-    requestAnimationFrame(animateScroll);
-
-    // Vibration feedback
-    if (navigator.vibrate) {
-        navigator.vibrate(50);
-    }
-}
-
 // Flaschenwerf-Animation
 function showBottleThrowAnimation() {
     const modal = document.querySelector('.message-paper');
@@ -490,7 +446,7 @@ document.addEventListener('DOMContentLoaded', function () {
         }
     });
 
-    // Modal schließen bei Klick außerhalb
+    // Modal schliessen bei Klick ausserhalb
     window.addEventListener('click', function (event) {
         const messageModal = document.getElementById('messageModal');
         const galleryModal = document.getElementById('galleryModal');
