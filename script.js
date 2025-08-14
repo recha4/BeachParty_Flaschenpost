@@ -11,13 +11,74 @@ const supabase = window.supabase.createClient(supabaseUrl, supabaseKey);
 
 //Scroll to Right bei Mobile Version
 function scrollToRight() {
-    const container = document.querySelector('.beach-container');
-    const scrollAmount = window.innerWidth * 0.8; // 80% der Viewport-Breite
+    console.log('scrollToRight() aufgerufen');
 
+    const container = document.querySelector('.beach-container');
+    console.log('Container gefunden:', container);
+
+    if (!container) {
+        console.error('Beach container nicht gefunden!');
+        return;
+    }
+
+    // Prüfe Container-Eigenschaften
+    console.log('Container scrollWidth:', container.scrollWidth);
+    console.log('Container clientWidth:', container.clientWidth);
+    console.log('Container overflow-x:', window.getComputedStyle(container).overflowX);
+
+    const currentScroll = container.scrollLeft;
+    const containerWidth = container.clientWidth;
+    const totalWidth = container.scrollWidth;
+    const scrollAmount = containerWidth * 0.8; // 80% der sichtbaren Breite
+
+    console.log('Aktueller Scroll:', currentScroll);
+    console.log('Container Breite:', containerWidth);
+    console.log('Gesamte Breite:', totalWidth);
+    console.log('Scroll Amount:', scrollAmount);
+
+    // Berechne neuen Scroll-Wert
+    const newScrollLeft = Math.min(currentScroll + scrollAmount, totalWidth - containerWidth);
+
+    console.log('Neuer Scroll-Wert:', newScrollLeft);
+
+    // Versuche verschiedene Scroll-Methoden
+    console.log('Versuche scrollTo...');
     container.scrollTo({
-        left: container.scrollLeft + scrollAmount,
+        left: newScrollLeft,
         behavior: 'smooth'
     });
+
+    // Fallback: Direkter scrollLeft
+    setTimeout(() => {
+        if (container.scrollLeft === currentScroll) {
+            console.log('scrollTo hat nicht funktioniert, versuche scrollLeft...');
+            container.scrollLeft = newScrollLeft;
+        }
+    }, 100);
+
+    // Fallback 2: scrollBy
+    setTimeout(() => {
+        if (container.scrollLeft === currentScroll) {
+            console.log('scrollLeft hat nicht funktioniert, versuche scrollBy...');
+            container.scrollBy({
+                left: scrollAmount,
+                behavior: 'smooth'
+            });
+        }
+    }, 200);
+
+    // Status nach 500ms prüfen
+    setTimeout(() => {
+        console.log('Scroll-Status nach 500ms:', container.scrollLeft);
+        if (container.scrollLeft === currentScroll) {
+            console.error('Scrollen ist fehlgeschlagen! Mögliche Ursachen:');
+            console.log('- Container hat overflow-x: hidden');
+            console.log('- Container ist nicht breit genug');
+            console.log('- CSS verhindert das Scrollen');
+        } else {
+            console.log('Scrollen erfolgreich!');
+        }
+    }, 500);
 
     // Vibration feedback
     if (navigator.vibrate) {
