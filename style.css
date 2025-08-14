@@ -21,7 +21,10 @@ html {
 
 .beach-container {
     position: relative;
-    width: 150vw;
+    width: 300vw;
+    /* GEÄNDERT: Von 150vw auf 300vw */
+    min-width: 3000px;
+    /* GEÄNDERT: Von nichts auf 3000px */
     height: 100vh;
     height: calc(var(--vh, 1vh)*100);
     overflow-y: hidden;
@@ -31,8 +34,6 @@ html {
     background-position: bottom;
     background-repeat: no-repeat;
     image-rendering: pixelated;
-
-    /*Fallback color*/
     background-color: #87CEEB;
 }
 
@@ -580,6 +581,9 @@ html {
 @media (max-width: 768px) {
     .beach-container {
         overflow-x: scroll;
+        width: 400vw !important;
+        /* GEÄNDERT: Noch breiter für Mobile */
+        min-width: 3200px !important;
     }
 
     .mobile-arrow {
@@ -593,8 +597,10 @@ html {
 
 @media (max-width: 480px) {
     .beach-container {
-        width: 210vw;
-        min-width: 2000px;
+        width: 350vw !important;
+        /* GEÄNDERT: Von 210vw auf 350vw */
+        min-width: 3000px !important;
+        /* GEÄNDERT: Von 2000px auf 3000px */
     }
 
     .message-paper {
@@ -640,7 +646,10 @@ html {
 
 @media (max-width: 320px) {
     .beach-container {
-        width: 170vw;
+        width: 300vw !important;
+        /* GEÄNDERT: Von 170vw auf 300vw */
+        min-width: 2800px !important;
+        /* NEU: Mindestens 2800px */
     }
 
     .giant-bottle {
