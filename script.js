@@ -9,76 +9,102 @@ const supabaseUrl = 'https://peamqqtnyxcenycwjvrn.supabase.co';
 const supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InBlYW1xcXRueXhjZW55Y3dqdnJuIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTQ2NjE5NzEsImV4cCI6MjA3MDIzNzk3MX0.w428iHM28kJuX_Hu6GkIZEPl76-iXlTHI0_Nfjw-6wc';
 const supabase = window.supabase.createClient(supabaseUrl, supabaseKey);
 
-//Scroll to Right bei Mobile Version
+// EINE EINZIGE scrollToRight Funktion mit Debug
 function scrollToRight() {
-    console.log('scrollToRight() aufgerufen');
+    console.log('=== SCROLL DEBUG START ===');
 
     const container = document.querySelector('.beach-container');
-    console.log('Container gefunden:', container);
+    const beachScene = container.querySelector('.beach-scene');
+
+    // WICHTIG: Entferne alle vorherigen Transforms
+    if (beachScene) {
+        beachScene.style.transform = 'none';
+    }
 
     if (!container) {
         console.error('Beach container nicht gefunden!');
         return;
     }
 
-    // Prüfe Container-Eigenschaften
-    console.log('Container scrollWidth:', container.scrollWidth);
-    console.log('Container clientWidth:', container.clientWidth);
-    console.log('Container overflow-x:', window.getComputedStyle(container).overflowX);
+    // Detaillierte Container-Info
+    const containerStyles = window.getComputedStyle(container);
+    console.log('Container CSS Properties:');
+    console.log('- overflow-x:', containerStyles.overflowX);
+    console.log('- overflow-y:', containerStyles.overflowY);
+    console.log('- width:', containerStyles.width);
+    console.log('- position:', containerStyles.position);
+    console.log('- transform:', containerStyles.transform);
+
+    console.log('Container Scroll Properties:');
+    console.log('- scrollLeft:', container.scrollLeft);
+    console.log('- scrollWidth:', container.scrollWidth);
+    console.log('- clientWidth:', container.clientWidth);
+    console.log('- offsetWidth:', container.offsetWidth);
+
+    // Prüfe ob Container scrollbar ist
+    const isScrollable = container.scrollWidth > container.clientWidth;
+    console.log('- Ist scrollbar:', isScrollable);
+
+    if (!isScrollable) {
+        console.error('🚨 CONTAINER IST NICHT SCROLLBAR!');
+        console.log('scrollWidth muss größer als clientWidth sein');
+        console.log('Prüfe CSS width-Eigenschaften!');
+        return;
+    }
 
     const currentScroll = container.scrollLeft;
-    const containerWidth = container.clientWidth;
-    const totalWidth = container.scrollWidth;
-    const scrollAmount = containerWidth * 0.8; // 80% der sichtbaren Breite
+    const scrollAmount = window.innerWidth * 0.8;
+    const maxScroll = container.scrollWidth - container.clientWidth;
+    const newScrollLeft = Math.min(currentScroll + scrollAmount, maxScroll);
 
-    console.log('Aktueller Scroll:', currentScroll);
-    console.log('Container Breite:', containerWidth);
-    console.log('Gesamte Breite:', totalWidth);
-    console.log('Scroll Amount:', scrollAmount);
+    console.log('Scroll Berechnung:');
+    console.log('- Aktuell:', currentScroll);
+    console.log('- Scroll Amount:', scrollAmount);
+    console.log('- Ziel:', newScrollLeft);
+    console.log('- Max möglich:', maxScroll);
 
-    // Berechne neuen Scroll-Wert
-    const newScrollLeft = Math.min(currentScroll + scrollAmount, totalWidth - containerWidth);
-
-    console.log('Neuer Scroll-Wert:', newScrollLeft);
-
-    // Versuche verschiedene Scroll-Methoden
-    console.log('Versuche scrollTo...');
+    // VERSUCH 1: Standard scrollTo
+    console.log('VERSUCH 1: scrollTo mit smooth');
     container.scrollTo({
         left: newScrollLeft,
         behavior: 'smooth'
     });
 
-    // Fallback: Direkter scrollLeft
+    // VERSUCH 2: Ohne smooth (nach 200ms)
     setTimeout(() => {
-        if (container.scrollLeft === currentScroll) {
-            console.log('scrollTo hat nicht funktioniert, versuche scrollLeft...');
-            container.scrollLeft = newScrollLeft;
-        }
-    }, 100);
-
-    // Fallback 2: scrollBy
-    setTimeout(() => {
-        if (container.scrollLeft === currentScroll) {
-            console.log('scrollLeft hat nicht funktioniert, versuche scrollBy...');
-            container.scrollBy({
-                left: scrollAmount,
-                behavior: 'smooth'
+        console.log('Nach 200ms - Position:', container.scrollLeft);
+        if (Math.abs(container.scrollLeft - currentScroll) < 5) {
+            console.log('VERSUCH 2: scrollTo ohne smooth');
+            container.scrollTo({
+                left: newScrollLeft,
+                behavior: 'auto'
             });
         }
     }, 200);
 
-    // Status nach 500ms prüfen
+    // VERSUCH 3: Direkter scrollLeft (nach 400ms)
     setTimeout(() => {
-        console.log('Scroll-Status nach 500ms:', container.scrollLeft);
-        if (container.scrollLeft === currentScroll) {
-            console.error('Scrollen ist fehlgeschlagen! Mögliche Ursachen:');
-            console.log('- Container hat overflow-x: hidden');
-            console.log('- Container ist nicht breit genug');
-            console.log('- CSS verhindert das Scrollen');
-        } else {
-            console.log('Scrollen erfolgreich!');
+        console.log('Nach 400ms - Position:', container.scrollLeft);
+        if (Math.abs(container.scrollLeft - currentScroll) < 5) {
+            console.log('VERSUCH 3: Direkter scrollLeft');
+            container.scrollLeft = newScrollLeft;
         }
-    }, 500);
+    }, 400);
+
+    // FINAL CHECK nach 600ms
+    setTimeout(() => {
+        console.log('=== FINAL CHECK nach 600ms ===');
+        console.log('Finale Position:', container.scrollLeft);
+        console.log('Erwartet war:', newScrollLeft);
+        console.log('Differenz:', Math.abs(container.scrollLeft - newScrollLeft));
+
+        if (Math.abs(container.scrollLeft - currentScroll) < 5) {
+            console.error('🚨 SCROLL HAT NICHT FUNKTIONIERT!');
+            console.log('Container width CSS prüfen!');
+        } else {
+            console.log('✅ SCROLL ERFOLGREICH!');
+        }
+    }, 600);
 
     // Vibration feedback
     if (navigator.vibrate) {
@@ -615,178 +641,3 @@ style.textContent = `
     }
 `;
 document.head.appendChild(style);
-
-
-// DEBUGGING
-
-// 1. Erst mal testen ob der Arrow überhaupt existiert
-console.log('Debug: Suche nach mobile arrow...');
-const mobileArrow = document.querySelector('.mobile-arrow');
-console.log('Mobile Arrow gefunden:', mobileArrow);
-
-// 2. Einfache Test-Funktion erstellen
-function testClick() {
-    console.log('Mobile Arrow wurde geklickt!');
-}
-
-// 3. Scroll-Funktion mit mehr Debugging
-function scrollToRight() {
-    console.log('=== SCROLL DEBUG START ===');
-
-    const container = document.querySelector('.beach-container');
-
-    if (!container) {
-        console.error('Beach container nicht gefunden!');
-        return;
-    }
-
-    // Detaillierte Container-Info
-    const containerStyles = window.getComputedStyle(container);
-    console.log('Container CSS Properties:');
-    console.log('- overflow-x:', containerStyles.overflowX);
-    console.log('- overflow-y:', containerStyles.overflowY);
-    console.log('- width:', containerStyles.width);
-    console.log('- position:', containerStyles.position);
-    console.log('- transform:', containerStyles.transform);
-
-    console.log('Container Scroll Properties:');
-    console.log('- scrollLeft:', container.scrollLeft);
-    console.log('- scrollWidth:', container.scrollWidth);
-    console.log('- clientWidth:', container.clientWidth);
-    console.log('- offsetWidth:', container.offsetWidth);
-
-    const currentScroll = container.scrollLeft;
-    const scrollAmount = window.innerWidth * 0.8;
-    const newScrollLeft = currentScroll + scrollAmount;
-
-    console.log('Scroll Berechnung:');
-    console.log('- Aktuell:', currentScroll);
-    console.log('- Scroll Amount:', scrollAmount);
-    console.log('- Ziel:', newScrollLeft);
-    console.log('- Max möglich:', container.scrollWidth - container.clientWidth);
-
-    // VERSUCH 1: Standard scrollTo
-    console.log('VERSUCH 1: scrollTo mit smooth');
-    container.scrollTo({
-        left: newScrollLeft,
-        behavior: 'smooth'
-    });
-
-    // VERSUCH 2: Ohne smooth (nach 200ms)
-    setTimeout(() => {
-        console.log('Nach 200ms - Position:', container.scrollLeft);
-        if (Math.abs(container.scrollLeft - currentScroll) < 5) {
-            console.log('VERSUCH 2: scrollTo ohne smooth');
-            container.scrollTo({
-                left: newScrollLeft,
-                behavior: 'auto'
-            });
-        }
-    }, 200);
-
-    // VERSUCH 3: Direkter scrollLeft (nach 400ms)
-    setTimeout(() => {
-        console.log('Nach 400ms - Position:', container.scrollLeft);
-        if (Math.abs(container.scrollLeft - currentScroll) < 5) {
-            console.log('VERSUCH 3: Direkter scrollLeft');
-            container.scrollLeft = newScrollLeft;
-        }
-    }, 400);
-
-    // VERSUCH 4: scrollBy (nach 600ms)
-    setTimeout(() => {
-        console.log('Nach 600ms - Position:', container.scrollLeft);
-        if (Math.abs(container.scrollLeft - currentScroll) < 5) {
-            console.log('VERSUCH 4: scrollBy');
-            container.scrollBy(scrollAmount, 0);
-        }
-    }, 600);
-
-    // VERSUCH 5: CSS Transform (nach 800ms)
-    setTimeout(() => {
-        console.log('Nach 800ms - Position:', container.scrollLeft);
-        if (Math.abs(container.scrollLeft - currentScroll) < 5) {
-            console.log('VERSUCH 5: CSS Transform');
-            const beachScene = container.querySelector('.beach-scene');
-            if (beachScene) {
-                beachScene.style.transform = `translateX(-${scrollAmount}px)`;
-                console.log('Transform angewendet:', `translateX(-${scrollAmount}px)`);
-            }
-        }
-    }, 800);
-
-    // FINAL CHECK nach 1 Sekunde
-    setTimeout(() => {
-        console.log('=== FINAL CHECK nach 1s ===');
-        console.log('Finale Position:', container.scrollLeft);
-        console.log('Erwartet war:', newScrollLeft);
-        console.log('Differenz:', Math.abs(container.scrollLeft - newScrollLeft));
-
-        if (Math.abs(container.scrollLeft - currentScroll) < 5) {
-            console.error('🚨 SCROLL HAT NICHT FUNKTIONIERT!');
-            console.log('Mögliche Ursachen:');
-            console.log('1. CSS overflow wird überschrieben');
-            console.log('2. JavaScript Event wird blockiert');
-            console.log('3. Mobile Browser Bug');
-            console.log('4. Touch-Events interferieren');
-        } else {
-            console.log('✅ SCROLL ERFOLGREICH!');
-        }
-    }, 1000);
-
-    // Vibration feedback
-    if (navigator.vibrate) {
-        navigator.vibrate(50);
-    }
-}
-
-// 4. DOMContentLoaded Event mit Debugging
-document.addEventListener('DOMContentLoaded', function () {
-    console.log('DOM geladen, suche mobile arrow...');
-
-    const mobileArrow = document.querySelector('.mobile-arrow');
-    console.log('Mobile Arrow:', mobileArrow);
-
-    if (mobileArrow) {
-        console.log('Arrow gefunden! Füge Events hinzu...');
-
-        // Erst mal nur Test-Click
-        mobileArrow.addEventListener('click', function (e) {
-            console.log('Click Event ausgelöst!', e);
-            testClick();
-        });
-
-        mobileArrow.addEventListener('touchstart', function (e) {
-            console.log('Touch Start Event ausgelöst!', e);
-        });
-
-        mobileArrow.addEventListener('touchend', function (e) {
-            console.log('Touch End Event ausgelöst!', e);
-            e.preventDefault();
-            testClick();
-        });
-
-        // Prüfe CSS Properties
-        const styles = window.getComputedStyle(mobileArrow);
-        console.log('Arrow Display:', styles.display);
-        console.log('Arrow Pointer Events:', styles.pointerEvents);
-        console.log('Arrow Z-Index:', styles.zIndex);
-
-    } else {
-        console.error('Mobile Arrow nicht gefunden! Prüfe:');
-        console.log('- Ist die CSS Klasse .mobile-arrow vorhanden?');
-        console.log('- Ist das Element im HTML?');
-        console.log('- Ist es durch CSS versteckt?');
-    }
-});
-
-// 5. Prüfe auch ob das Element zur richtigen Zeit sichtbar ist
-setTimeout(() => {
-    console.log('--- 2 Sekunden später ---');
-    const arrow = document.querySelector('.mobile-arrow');
-    if (arrow) {
-        const rect = arrow.getBoundingClientRect();
-        console.log('Arrow Position:', rect);
-        console.log('Arrow sichtbar:', rect.width > 0 && rect.height > 0);
-    }
-}, 2000);
