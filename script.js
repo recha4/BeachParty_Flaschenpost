@@ -627,33 +627,112 @@ console.log('Mobile Arrow gefunden:', mobileArrow);
 // 2. Einfache Test-Funktion erstellen
 function testClick() {
     console.log('Mobile Arrow wurde geklickt!');
-    alert('Arrow funktioniert!'); // Temporär zum Testen
 }
 
 // 3. Scroll-Funktion mit mehr Debugging
 function scrollToRight() {
-    console.log('scrollToRight() aufgerufen');
+    console.log('=== SCROLL DEBUG START ===');
 
     const container = document.querySelector('.beach-container');
-    console.log('Container gefunden:', container);
 
     if (!container) {
         console.error('Beach container nicht gefunden!');
         return;
     }
 
+    // Detaillierte Container-Info
+    const containerStyles = window.getComputedStyle(container);
+    console.log('Container CSS Properties:');
+    console.log('- overflow-x:', containerStyles.overflowX);
+    console.log('- overflow-y:', containerStyles.overflowY);
+    console.log('- width:', containerStyles.width);
+    console.log('- position:', containerStyles.position);
+    console.log('- transform:', containerStyles.transform);
+
+    console.log('Container Scroll Properties:');
+    console.log('- scrollLeft:', container.scrollLeft);
+    console.log('- scrollWidth:', container.scrollWidth);
+    console.log('- clientWidth:', container.clientWidth);
+    console.log('- offsetWidth:', container.offsetWidth);
+
     const currentScroll = container.scrollLeft;
     const scrollAmount = window.innerWidth * 0.8;
+    const newScrollLeft = currentScroll + scrollAmount;
 
-    console.log('Aktueller Scroll:', currentScroll);
-    console.log('Scroll Amount:', scrollAmount);
+    console.log('Scroll Berechnung:');
+    console.log('- Aktuell:', currentScroll);
+    console.log('- Scroll Amount:', scrollAmount);
+    console.log('- Ziel:', newScrollLeft);
+    console.log('- Max möglich:', container.scrollWidth - container.clientWidth);
 
+    // VERSUCH 1: Standard scrollTo
+    console.log('VERSUCH 1: scrollTo mit smooth');
     container.scrollTo({
-        left: currentScroll + scrollAmount,
+        left: newScrollLeft,
         behavior: 'smooth'
     });
 
-    console.log('Scroll ausgeführt zu:', currentScroll + scrollAmount);
+    // VERSUCH 2: Ohne smooth (nach 200ms)
+    setTimeout(() => {
+        console.log('Nach 200ms - Position:', container.scrollLeft);
+        if (Math.abs(container.scrollLeft - currentScroll) < 5) {
+            console.log('VERSUCH 2: scrollTo ohne smooth');
+            container.scrollTo({
+                left: newScrollLeft,
+                behavior: 'auto'
+            });
+        }
+    }, 200);
+
+    // VERSUCH 3: Direkter scrollLeft (nach 400ms)
+    setTimeout(() => {
+        console.log('Nach 400ms - Position:', container.scrollLeft);
+        if (Math.abs(container.scrollLeft - currentScroll) < 5) {
+            console.log('VERSUCH 3: Direkter scrollLeft');
+            container.scrollLeft = newScrollLeft;
+        }
+    }, 400);
+
+    // VERSUCH 4: scrollBy (nach 600ms)
+    setTimeout(() => {
+        console.log('Nach 600ms - Position:', container.scrollLeft);
+        if (Math.abs(container.scrollLeft - currentScroll) < 5) {
+            console.log('VERSUCH 4: scrollBy');
+            container.scrollBy(scrollAmount, 0);
+        }
+    }, 600);
+
+    // VERSUCH 5: CSS Transform (nach 800ms)
+    setTimeout(() => {
+        console.log('Nach 800ms - Position:', container.scrollLeft);
+        if (Math.abs(container.scrollLeft - currentScroll) < 5) {
+            console.log('VERSUCH 5: CSS Transform');
+            const beachScene = container.querySelector('.beach-scene');
+            if (beachScene) {
+                beachScene.style.transform = `translateX(-${scrollAmount}px)`;
+                console.log('Transform angewendet:', `translateX(-${scrollAmount}px)`);
+            }
+        }
+    }, 800);
+
+    // FINAL CHECK nach 1 Sekunde
+    setTimeout(() => {
+        console.log('=== FINAL CHECK nach 1s ===');
+        console.log('Finale Position:', container.scrollLeft);
+        console.log('Erwartet war:', newScrollLeft);
+        console.log('Differenz:', Math.abs(container.scrollLeft - newScrollLeft));
+
+        if (Math.abs(container.scrollLeft - currentScroll) < 5) {
+            console.error('🚨 SCROLL HAT NICHT FUNKTIONIERT!');
+            console.log('Mögliche Ursachen:');
+            console.log('1. CSS overflow wird überschrieben');
+            console.log('2. JavaScript Event wird blockiert');
+            console.log('3. Mobile Browser Bug');
+            console.log('4. Touch-Events interferieren');
+        } else {
+            console.log('✅ SCROLL ERFOLGREICH!');
+        }
+    }, 1000);
 
     // Vibration feedback
     if (navigator.vibrate) {
