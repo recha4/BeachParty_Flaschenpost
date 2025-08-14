@@ -9,6 +9,22 @@ const supabaseUrl = 'https://peamqqtnyxcenycwjvrn.supabase.co';
 const supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InBlYW1xcXRueXhjZW55Y3dqdnJuIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTQ2NjE5NzEsImV4cCI6MjA3MDIzNzk3MX0.w428iHM28kJuX_Hu6GkIZEPl76-iXlTHI0_Nfjw-6wc';
 const supabase = window.supabase.createClient(supabaseUrl, supabaseKey);
 
+//Scroll to Right bei Mobile Version
+function scrollToRight() {
+    const container = document.querySelector('.beach-container');
+    const scrollAmount = window.innerWidth * 0.8; // 80% der Viewport-Breite
+
+    container.scrollTo({
+        left: container.scrollLeft + scrollAmount,
+        behavior: 'smooth'
+    });
+
+    // Vibration feedback
+    if (navigator.vibrate) {
+        navigator.vibrate(50);
+    }
+}
+
 // Nachricht zu Supabase senden
 async function sendMessageToSupabase(author, content) {
     try {
@@ -389,6 +405,16 @@ document.addEventListener('DOMContentLoaded', function () {
     // Scroll-Events für Hide/Show von Arrow und Hint
     const container = document.querySelector('.beach-container');
     let scrollTimeout;
+
+    // Mobile Arrow Click Event hinzufügen (als Backup zum onclick)
+    const mobileArrow = document.querySelector('.mobile-arrow');
+    if (mobileArrow) {
+        mobileArrow.addEventListener('click', scrollToRight);
+        mobileArrow.addEventListener('touchend', function (e) {
+            e.preventDefault(); // Verhindert doppelte Events
+            scrollToRight();
+        });
+    }
 
     container.addEventListener('scroll', function () {
         clearTimeout(scrollTimeout);
