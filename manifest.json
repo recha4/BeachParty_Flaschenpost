@@ -1,0 +1,48 @@
+{
+    "name": "Beach Party Flaschenpost",
+    "short_name": "Flaschenpost",
+    "description": "Digitale Flaschenpost für den gemeinsamen 100. Geburtstag",
+    "start_url": "/",
+    "display": "standalone",
+    "orientation": "portrait",
+    "theme_color": "#FF6347",
+    "background_color": "#87CEEB",
+    "scope": "/",
+    "lang": "de-DE",
+    "categories": [
+        "social",
+        "entertainment"
+    ],
+    "icons": [
+        {
+            "src": "img/favicon-32x32.png",
+            "sizes": "32x32",
+            "type": "image/png",
+            "purpose": "maskable any"
+        },
+        {
+            "src": "img/favicon-16x16.png",
+            "sizes": "16x16",
+            "type": "image/png",
+            "purpose": "maskable any"
+        },
+        {
+            "src": "img/apple-touch-icon.png",
+            "sizes": "180x180",
+            "type": "image/png",
+            "purpose": "maskable any"
+        },
+        {
+            "src": "img/android-chrome-192x192.png",
+            "sizes": "192x192",
+            "type": "image/png",
+            "purpose": "maskable any"
+        },
+        {
+            "src": "img/android-chrome-512x512.png",
+            "sizes": "512x512",
+            "type": "image/png",
+            "purpose": "maskable any"
+        }
+    ]
+}

@@ -426,6 +426,10 @@ document.addEventListener('DOMContentLoaded', function () {
                 }
             }
         }, 100);
+
+        // PWA-Features initialisieren
+        initPWAFeatures();
+        handleURLActions();
     });
 
     // Keyboard Navigation
@@ -454,6 +458,17 @@ document.addEventListener('DOMContentLoaded', function () {
         if (event.target === galleryModal) {
             closeGallery();
         }
+    });
+
+    // Netzwerk-Status überwachen
+    window.addEventListener('online', () => {
+        showNotification('Verbindung wiederhergestellt! 🌊', 'success');
+        // Nachrichten neu laden wenn wieder online
+        updateGallery();
+    });
+
+    window.addEventListener('offline', () => {
+        showNotification('Offline-Modus aktiv', 'info');
     });
 
     // Textarea Auto-Resize
@@ -528,3 +543,150 @@ style.textContent = `
     }
 `;
 document.head.appendChild(style);
+
+// PWA Installation
+let deferredPrompt;
+let installButton = null;
+
+// Service Worker registrieren
+if ('serviceWorker' in navigator) {
+    window.addEventListener('load', async () => {
+        try {
+            const registration = await navigator.serviceWorker.register('./sw.js');
+            console.log('SW registered: ', registration);
+        } catch (registrationError) {
+            console.log('SW registration failed: ', registrationError);
+        }
+    });
+}
+
+// PWA Installation Event abfangen
+window.addEventListener('beforeinstallprompt', (e) => {
+    console.log('ok', 'beforeinstallprompt', e);
+    // Verhindere automatische Installation
+    e.preventDefault();
+    // Speichere das Event für später
+    deferredPrompt = e;
+    // Zeige Install-Button
+    showInstallButton();
+});
+
+// Install-Button erstellen und anzeigen
+function showInstallButton() {
+    // Erstelle Install-Button falls noch nicht vorhanden
+    if (!installButton) {
+        installButton = document.createElement('button');
+        installButton.className = 'install-btn';
+        installButton.innerHTML = 'App installieren';
+        installButton.onclick = installPWA;
+
+        // Füge Button zur UI hinzu
+        const uiOverlay = document.querySelector('.ui-overlay');
+        uiOverlay.appendChild(installButton);
+    }
+
+    installButton.style.display = 'block';
+}
+
+// PWA Installation auslösen
+async function installPWA() {
+    if (deferredPrompt) {
+        // Zeige Install-Prompt
+        deferredPrompt.prompt();
+
+        // Warte auf Antwort des Users
+        const { outcome } = await deferredPrompt.userChoice;
+        console.log(`User response to the install prompt: ${outcome}`);
+
+        // Reset deferred prompt
+        deferredPrompt = null;
+
+        // Verstecke Install-Button
+        if (installButton) {
+            installButton.style.display = 'none';
+        }
+
+        // Zeige Bestätigung
+        if (outcome === 'accepted') {
+            showNotification('App wurde installiert!', 'success');
+        }
+    }
+}
+
+// Check wenn App bereits installiert ist
+window.addEventListener('appinstalled', (evt) => {
+    console.log('ok', 'appinstalled', evt);
+    // Verstecke Install-Button
+    if (installButton) {
+        installButton.style.display = 'none';
+    }
+    showNotification('Beach Party App installiert!', 'success');
+});
+
+// URL Parameter für Shortcuts verarbeiten
+function handleURLActions() {
+    const urlParams = new URLSearchParams(window.location.search);
+    const action = urlParams.get('action');
+
+    switch (action) {
+        case 'write':
+            // Öffne sofort das Schreib-Modal
+            setTimeout(() => openMessageModal(), 500);
+            break;
+        case 'gallery':
+            // Öffne sofort die Galerie
+            setTimeout(() => openGallery(), 500);
+            break;
+    }
+}
+
+// PWA Stand-alone Modus erkennen
+function isPWA() {
+    return window.matchMedia('(display-mode: standalone)').matches ||
+        window.navigator.standalone === true;
+}
+
+// PWA-spezifische Funktionen
+function initPWAFeatures() {
+    if (isPWA()) {
+        console.log('App läuft im PWA-Modus!');
+
+        // Zusätzliche PWA-Features
+        document.body.classList.add('pwa-mode');
+
+        // Verhindere Pull-to-Refresh in der PWA
+        document.body.addEventListener('touchmove', (e) => {
+            if (e.touches.length > 1) {
+                e.preventDefault();
+            }
+        }, { passive: false });
+
+        // Status-Bar Style für iOS
+        if (navigator.userAgent.match(/iPhone|iPad|iPod/)) {
+            const viewport = document.querySelector('meta[name=viewport]');
+            viewport.setAttribute('content',
+                viewport.getAttribute('content') + ', viewport-fit=cover'
+            );
+        }
+    }
+}
+
+// Share API für moderne Browser
+async function shareMessage(message) {
+    if (navigator.share && navigator.canShare) {
+        try {
+            await navigator.share({
+                title: 'Beach Party Flaschenpost',
+                text: `Nachricht von ${message.author}: "${message.content}"`,
+                url: window.location.href
+            });
+        } catch (error) {
+            console.log('Share failed:', error);
+        }
+    } else {
+        // Fallback: Copy to Clipboard
+        const textToCopy = `Nachricht von ${message.author}: "${message.content}" - ${window.location.href}`;
+        await navigator.clipboard.writeText(textToCopy);
+        showNotification('In Zwischenablage kopiert!', 'success');
+    }
+}
