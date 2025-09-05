@@ -555,21 +555,21 @@ html {
 
 @keyframes arrowPulse {
     0% {
-        transform: scale(1);
+        transform: translateX(-50%) scale(1);
         box-shadow:
             0 5px 15px rgba(0, 0, 0, 0.3),
             0 0 0 0 rgba(255, 99, 71, 0.4);
     }
 
     50% {
-        transform: scale(1.1);
+        transform: translateX(-50%) scale(1.1);
         box-shadow:
             0 8px 20px rgba(0, 0, 0, 0.4),
             0 0 0 10px rgba(255, 99, 71, 0.1);
     }
 
     100% {
-        transform: scale(1);
+        transform: translateX(-50%) scale(1);
         box-shadow:
             0 5px 15px rgba(0, 0, 0, 0.3),
             0 0 0 20px rgba(255, 99, 71, 0);
@@ -577,7 +577,7 @@ html {
 }
 
 .mobile-arrow:active {
-    transform: scale(0.95);
+    transform: translateX(-50%) scale(0.95);
 }
 
 @media (max-width: 768px) {
