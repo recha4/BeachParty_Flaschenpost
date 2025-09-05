@@ -4,18 +4,15 @@ const OFFLINE_URL = '/offline.html';
 
 // Files die gecacht werden sollen
 const CACHE_FILES = [
-    '/',
-    '/index.html',
-    '/style.css',
-    '/script.js',
-    '/manifest.json',
-    // Bilder
-    '/img/strand.png',
-    '/img/flaschenpost.png',
-    // Icons (die wichtigsten)
-    '/img/favicon-16x16.png',
-    '/img/favicon-32x32.png',
-    // Externe Libraries
+    '/BeachParty_Flaschenpost/',
+    '/BeachParty_Flaschenpost/index.html',
+    '/BeachParty_Flaschenpost/style.css',
+    '/BeachParty_Flaschenpost/script.js',
+    '/BeachParty_Flaschenpost/manifest.json',
+    '/BeachParty_Flaschenpost/img/strand.png',
+    '/BeachParty_Flaschenpost/img/flaschenpost.png',
+    '/BeachParty_Flaschenpost/img/favicon-16x16.png',
+    '/BeachParty_Flaschenpost/img/favicon-32x32.png',
     'https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.js'
 ];
 
@@ -114,7 +111,7 @@ self.addEventListener('fetch', (event) => {
                 }).catch(() => {
                     // Fallback für HTML Seiten
                     if (event.request.destination === 'document') {
-                        return caches.match('/index.html');
+                        return caches.match('/BeachParty_Flaschenpost/index.html');
                     }
 
                     // Fallback für Bilder

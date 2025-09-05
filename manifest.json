@@ -2,7 +2,7 @@
     "name": "Beach Party Flaschenpost",
     "short_name": "Flaschenpost",
     "description": "Digitale Flaschenpost für den gemeinsamen 100. Geburtstag",
-    "start_url": "/",
+    "start_url": "/BeachParty_Flaschenpost/",
     "display": "standalone",
     "orientation": "portrait",
     "theme_color": "#FF6347",
