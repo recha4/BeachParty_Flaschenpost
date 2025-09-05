@@ -552,7 +552,7 @@ let installButton = null;
 if ('serviceWorker' in navigator) {
     window.addEventListener('load', async () => {
         try {
-            const registration = await navigator.serviceWorker.register('./sw.js');
+            const registration = await navigator.serviceWorker.register('/BeachParty_Flaschenpost/sw.js');
             console.log('SW registered: ', registration);
         } catch (registrationError) {
             console.log('SW registration failed: ', registrationError);
