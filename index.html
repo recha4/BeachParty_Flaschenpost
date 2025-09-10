@@ -84,9 +84,45 @@
 
     <script src="script.js"></script>
 
-    <!-- Elfsight Popup | Untitled Popup -->
-    <script src="https://elfsightcdn.com/platform.js" async></script>
-    <div class="elfsight-app-3a53efd1-6510-48c0-9049-3b9ef7783573" data-elfsight-app-lazy></div>
+    <!-- Custom Welcome Popup -->
+    <div class="popup-overlay" id="welcomePopup" aria-hidden="true">
+        <div class="popup-card" role="dialog" aria-modal="true" aria-labelledby="popupTitle"
+            aria-describedby="popupDesc">
+            <button type="button" class="popup-close" aria-label="Schliessen" onclick="closeWelcomePopup()">×</button>
+            <h2 id="popupTitle">Aloha! Hier kannst du deine Flaschenpost verschicken</h2>
+            <p id="popupDesc">
+                Füge diese Seite zu deinem Homebildschirm hinzu für ein noch besseres Erlebnis :)
+            </p>
+            <div class="popup-actions">
+                <button class="btn btn-cancel" onclick="closeWelcomePopup()">Let's go!</button>
+            </div>
+        </div>
+    </div>
+    <script>
+        function closeWelcomePopup() {
+            const el = document.getElementById('welcomePopup');
+            if (!el) return;
+            el.style.display = 'none';
+            el.setAttribute('aria-hidden', 'true');
+        }
+        document.addEventListener('DOMContentLoaded', () => {
+            const el = document.getElementById('welcomePopup');
+            if (el) {
+                el.style.display = 'flex';         // Popup beim Laden zeigen
+                el.setAttribute('aria-hidden', 'false');
+            }
+        });
+        // ESC & Klick auf Overlay schliessen
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape') closeWelcomePopup();
+        });
+        window.addEventListener('click', (e) => {
+            const el = document.getElementById('welcomePopup');
+            if (el && e.target === el) closeWelcomePopup();
+        });
+    </script>
+
+
 </body>
 
 </html>

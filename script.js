@@ -690,3 +690,82 @@ async function shareMessage(message) {
         showNotification('In Zwischenablage kopiert!', 'success');
     }
 }
+
+// ====== Mobile + Nicht-installiert -> Popup steuern ======
+const POPUP_SEEN_KEY = 'welcome_popup_seen_v1';
+let deferredInstallPrompt = null;
+
+// 1) „Installierbar“-Event (Android/Chrome & Co.)
+window.addEventListener('beforeinstallprompt', (e) => {
+    // Standard-UI unterdrücken, damit wir selbst steuern können
+    e.preventDefault();
+    deferredInstallPrompt = e;
+});
+
+// 2) Helferfunktionen
+function isStandaloneMode() {
+    // Android/Chrome & Co.
+    const standaloneMedia = window.matchMedia && window.matchMedia('(display-mode: standalone)').matches;
+    // iOS Safari (beim „Zum Home-Bildschirm hinzufügen“)
+    const iOSStandalone = window.navigator.standalone === true;
+    return Boolean(standaloneMedia || iOSStandalone);
+}
+
+function isMobileDevice() {
+    // Priorisiere moderne API, fallback auf UA
+    const uaDataMobile = navigator.userAgentData && navigator.userAgentData.mobile;
+    if (typeof uaDataMobile === 'boolean') return uaDataMobile;
+
+    const ua = navigator.userAgent || '';
+    return /Mobi|Android|iPhone|iPad|iPod/i.test(ua);
+}
+
+function isIOS() {
+    const ua = navigator.userAgent || '';
+    return /iPhone|iPad|iPod/i.test(ua);
+}
+
+// 3) Popup-Logik beim Start
+document.addEventListener('DOMContentLoaded', () => {
+    const alreadySeen = sessionStorage.getItem(POPUP_SEEN_KEY) === '1';
+    const mobile = isMobileDevice();
+    const installed = isStandaloneMode();
+
+    // Bedingungen:
+    // - nur auf Mobile
+    // - nur wenn nicht „als App“ läuft (also noch nicht zum Homebildschirm hinzugefügt)
+    // - und wir es in dieser Session noch nicht gezeigt haben
+    if (mobile && !installed && !alreadySeen) {
+        // Kleiner Delay, damit das UI steht
+        setTimeout(() => {
+            const el = document.getElementById('welcomePopup');
+            if (!el) return;
+
+            // Optional: Für iOS den Text anpassen (Tipp zum Teilen-Menü)
+            if (isIOS()) {
+                const desc = document.getElementById('popupDesc');
+                if (desc) {
+                    desc.textContent = 'Öffne das Teilen-Menü (Quadrat mit Pfeil) und tippe auf „Zum Home-Bildschirm“.';
+                }
+            }
+
+            el.style.display = 'flex';
+            el.setAttribute('aria-hidden', 'false');
+            sessionStorage.setItem(POPUP_SEEN_KEY, '1');
+        }, 400);
+    }
+});
+
+// 4) Optional: „Let’s go!“ zum Install-Flow machen (Android)
+async function handleInstallClick() {
+    // Wenn Android/Chrome ein Install-Event hat -> prompten
+    if (deferredInstallPrompt) {
+        deferredInstallPrompt.prompt();
+        try {
+            await deferredInstallPrompt.userChoice;
+        } catch (_) { }
+        deferredInstallPrompt = null;
+    }
+    // iOS hat keinen Prompt -> Nutzer:innen folgen der Anleitung im Text
+    closeWelcomePopup();
+}
