@@ -1,6 +1,5 @@
 // Service Worker für Beach Party Flaschenpost PWA
 const CACHE_NAME = 'beach-party-v1.0.0';
-const OFFLINE_URL = '/offline.html';
 
 // Files die gecacht werden sollen
 const CACHE_FILES = [

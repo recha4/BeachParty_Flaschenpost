@@ -23,7 +23,6 @@
 
     <!-- Windows Tiles -->
     <meta name="msapplication-TileImage" content="img/android-chrome-192x192.png">
-    <meta name="msapplication-TileColor" content="#FF6347">
 
     <!-- Open Graph für Social Sharing -->
     <meta property="og:title" content="Beach Party Flaschenpost">
@@ -97,30 +96,6 @@
             </div>
         </div>
     </div>
-    <script>
-        function closeWelcomePopup() {
-            const el = document.getElementById('welcomePopup');
-            if (!el) return;
-            el.style.display = 'none';
-            el.setAttribute('aria-hidden', 'true');
-        }
-        document.addEventListener('DOMContentLoaded', () => {
-            const el = document.getElementById('welcomePopup');
-            if (el) {
-                el.style.display = 'flex';         // Popup beim Laden zeigen
-                el.setAttribute('aria-hidden', 'false');
-            }
-        });
-        // ESC & Klick auf Overlay schliessen
-        document.addEventListener('keydown', (e) => {
-            if (e.key === 'Escape') closeWelcomePopup();
-        });
-        window.addEventListener('click', (e) => {
-            const el = document.getElementById('welcomePopup');
-            if (el && e.target === el) closeWelcomePopup();
-        });
-    </script>
-
 
 </body>
 
