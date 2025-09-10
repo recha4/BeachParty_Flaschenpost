@@ -587,14 +587,6 @@ document.addEventListener('DOMContentLoaded', () => {
             const el = document.getElementById('welcomePopup');
             if (!el) return;
 
-            // Optional: Für iOS den Text anpassen (Tipp zum Teilen-Menü)
-            if (isIOS()) {
-                const desc = document.getElementById('popupDesc');
-                if (desc) {
-                    desc.textContent = 'Öffne das Teilen-Menü (Quadrat mit Pfeil) und tippe auf „Zum Home-Bildschirm“.';
-                }
-            }
-
             el.style.display = 'flex';
             el.setAttribute('aria-hidden', 'false');
             sessionStorage.setItem(POPUP_SEEN_KEY, '1');
