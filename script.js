@@ -502,11 +502,11 @@ style.textContent = `
     
     @keyframes contentSlideDown {
         from { opacity: 0; max-height: 0; padding: 0 15px; }
-        to { opacity: 1; max-height: 200px; padding: 15px; }
+        to { opacity: 1; max-height: 2000px; padding: 15px; }
     }
     
     @keyframes contentSlideUp {
-        from { opacity: 1; max-height: 200px; }
+        from { opacity: 1; max-height: 2000px; }
         to { opacity: 0; max-height: 0; padding-top: 0; padding-bottom: 0; }
     }
 `;
