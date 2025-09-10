@@ -9,28 +9,39 @@ const supabaseUrl = 'https://peamqqtnyxcenycwjvrn.supabase.co';
 const supabaseAnonKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InBlYW1xcXRueXhjZW55Y3dqdnJuIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTQ2NjE5NzEsImV4cCI6MjA3MDIzNzk3MX0.w428iHM28kJuX_Hu6GkIZEPl76-iXlTHI0_Nfjw-6wc';
 const supabase = window.supabase.createClient(supabaseUrl, supabaseAnonKey);
 
-// Nachrichten senden über Function
+// Nachrichten senden zu Supabase
 async function sendMessageToSupabase(author, content) {
-    const { data, error } = await supabase.functions.invoke('send-message', {
-        body: { author, content }
-    });
-    if (error) {
-        console.error('Function Error:', error);
+    try {
+        const { data, error } = await supabase
+            .from('messages')
+            .insert([{ author, content }]);
+        if (error) {
+            console.error('Supabase Error:', error);
+            return false;
+        }
+        return true;
+    } catch (err) {
+        console.error('JavaScript Error:', err);
         return false;
     }
-    return data?.ok === true;
 }
 
-// Nachrichten laden über Function
+// Nachrichten aus Supabase laden
 async function loadMessagesFromSupabase() {
-    const { data, error } = await supabase.functions.invoke('list-messages', {
-        body: { limit: 50 }
-    });
-    if (error) {
-        console.error('Function Error:', error);
+    try {
+        const { data: messages, error } = await supabase
+            .from('messages')
+            .select('*')
+            .order('created_at', { ascending: false });
+        if (error) {
+            console.error('Load Error:', error);
+            return [];
+        }
+        return messages || [];
+    } catch (err) {
+        console.error('Load JavaScript Error:', err);
         return [];
     }
-    return data?.messages ?? [];
 }
 
 // Gallery aktualisieren
