@@ -27,20 +27,20 @@
             "purpose": "maskable any"
         },
         {
-            "src": "img/apple-touch-icon.png",
-            "sizes": "180x180",
+            "src": "img/apple-touch-icon2.png",
+            "sizes": "176x176",
             "type": "image/png",
             "purpose": "maskable any"
         },
         {
-            "src": "img/android-chrome-192x192.png",
-            "sizes": "192x192",
+            "src": "img/android-chrome-192x192_2.png",
+            "sizes": "188x188",
             "type": "image/png",
             "purpose": "maskable any"
         },
         {
-            "src": "img/android-chrome-512x512.png",
-            "sizes": "512x512",
+            "src": "img/android-chrome-512x512_2.png",
+            "sizes": "499x499",
             "type": "image/png",
             "purpose": "maskable any"
         }
