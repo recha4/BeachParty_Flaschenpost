@@ -99,6 +99,7 @@ html {
     background-size: contain;
     background-repeat: no-repeat;
     background-position: center;
+    animation: pulse 2s infinite;
 }
 
 .giant-bottle:hover {
@@ -153,7 +154,6 @@ html {
 }
 
 .scroll-hint {
-    position: absolute;
     bottom: 30px;
     left: 50%;
     transform: translateX(-50%);
