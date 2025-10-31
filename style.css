@@ -90,8 +90,8 @@ html {
     position: absolute;
     right: 5%;
     bottom: 5%;
-    width: 120px;
-    height: 180px;
+    width: 135px;
+    height: 200px;
     cursor: pointer;
     transition: all 0.3s ease;
     image-rendering: pixelated;
@@ -99,7 +99,7 @@ html {
     background-size: contain;
     background-repeat: no-repeat;
     background-position: center;
-    animation: pulse 2s infinite;
+    animation: pulse 1.7s infinite;
 }
 
 .giant-bottle:hover {
