@@ -180,7 +180,7 @@ html {
 
     50% {
         opacity: 1;
-        transform: translateX(-50%) scale(1.05);
+        transform: translateX(-50%) scale(1.2);
     }
 }
 
